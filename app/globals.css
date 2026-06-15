@@ -175,8 +175,10 @@ section {
 */
 .hero-overlay [class*="Hero-heading"],
 .hero-overlay [class*="Hero-description"],
-.hero-overlay [class*="Hero-label"] {
+.hero-overlay [class*="Hero-label"],
+.hero-overlay [class*="Hero-label"] * {
   color: #ffffff !important;
+  opacity: 1 !important;
 }
 
 /*
@@ -199,6 +201,11 @@ section {
     transparent 0%,
     var(--brand-color-canvas-subtle) 100%
   );
+}
+
+/* In light mode the banner should end with a hard edge (no bottom fade) */
+[data-color-mode="light"] .hero-banner::after {
+  display: none;
 }
 
 /* Lift only the hero CTA button above the bottom fade onto a lighter area */

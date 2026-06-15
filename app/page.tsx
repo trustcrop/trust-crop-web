@@ -24,7 +24,7 @@ import {
   MoonIcon,
   GraphIcon,
   PackageIcon,
-  PulseIcon,
+  CommentDiscussionIcon,
 } from "@primer/octicons-react";
 import { useColorScheme } from "./components/PrimerBrandProvider";
 import content from "./content/el.json";
@@ -34,7 +34,8 @@ const { nav, hero, features, howItWorks, stats, pricing, footer } = content;
 const pillarIcons = [
   { icon: <GraphIcon size={24} />, color: "green" as const },
   { icon: <PackageIcon size={24} />, color: "blue" as const },
-  { icon: <PulseIcon size={24} />, color: "purple" as const },
+  { icon: <SunIcon size={24} />, color: "purple" as const },
+  { icon: <CommentDiscussionIcon size={24} />, color: "teal" as const },
 ];
 
 export default function Home() {
@@ -45,7 +46,7 @@ export default function Home() {
       {/* ── Navigation ── */}
       <SubNav>
         <SubNav.Heading href="/">
-          <Image src="/tc-logo.svg" alt="TrustCrop" width={45} height={45} />
+          <Image src="/images/logo.png" alt="TrustCrop" width={45} height={45} />
         </SubNav.Heading>
         <SubNav.Link href="#features">{nav.features}</SubNav.Link>
         <SubNav.Link href="#how-it-works">{nav.howItWorks}</SubNav.Link>
@@ -103,7 +104,7 @@ export default function Home() {
             {features.pillars.map((pillar, i) => (
               <Grid.Column
                 key={pillar.heading}
-                span={{ xsmall: 12, medium: 6, large: 4 }}
+                span={{ xsmall: 12, medium: 6, large: 3 }}
               >
                 <div className="feature-card">
                   <Pillar animate={{ variant: "slide-in-up", delay: i * 150 }}>
