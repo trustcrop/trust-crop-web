@@ -46,7 +46,12 @@ export default function Home() {
       {/* ── Navigation ── */}
       <SubNav>
         <SubNav.Heading href="/">
-          <Image src="/images/logo.png" alt="TrustCrop" width={45} height={45} />
+          <span className="brand-heading">
+            <Image src="/images/logo.png" alt="TrustCrop" width={45} height={45} />
+            <span className="brand-name">
+              <span className="brand-name-text">Trust Crop</span>
+            </span>
+          </span>
         </SubNav.Heading>
         <SubNav.Link href="#features">{nav.features}</SubNav.Link>
         <SubNav.Link href="#how-it-works">{nav.howItWorks}</SubNav.Link>

@@ -135,6 +135,94 @@ section {
 }
 
 /*
+  Brand heading: logo + "Trust Crop" wordmark. Remove Primer's vertical
+  divider that the SubNav heading normally renders after it, and reveal the
+  wordmark once on page load (slides out left→right, then hides in reverse).
+*/
+.brand-heading {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 0.5rem;
+}
+
+[class*="SubNav__heading-separator"] {
+  display: none !important;
+}
+
+/* Remove the vertical divider border on the heading container */
+[class*="SubNav__heading-container"] {
+  border-inline-end: none !important;
+}
+
+/* Pull the nav links closer to the logo on desktop */
+@media screen and (min-width: 63.25rem) {
+  [class*="SubNav__heading-container"] {
+    padding-inline-end: 1rem !important;
+  }
+
+  [class*="SubNav__links-overlay"] {
+    padding-inline-start: 0.5rem !important;
+  }
+}
+
+.brand-name {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  height: 1.9em;
+  overflow: hidden;
+  max-width: 0;
+  white-space: nowrap;
+  will-change: max-width;
+  animation: brand-name-reveal 3s ease-in-out 0.3s 1 both;
+}
+
+.brand-name-text {
+  display: inline-block;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--brand-color-text-default, var(--foreground));
+  transform: translateX(-100%);
+  will-change: transform;
+  animation: brand-name-slide 3s ease-in-out 0.3s 1 both;
+}
+
+@keyframes brand-name-reveal {
+  0%   { max-width: 0; }
+  25%  { max-width: 12rem; }
+  70%  { max-width: 12rem; }
+  100% { max-width: 0; }
+}
+
+@keyframes brand-name-slide {
+  0%   { transform: translateX(-100%); opacity: 0; }
+  25%  { transform: translateX(0); opacity: 1; }
+  70%  { transform: translateX(0); opacity: 1; }
+  100% { transform: translateX(-100%); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-name,
+  .brand-name-text {
+    animation: none;
+  }
+}
+
+/*
+  On very narrow viewports (below typical phone width) the cramped header has
+  no room for the decorative wordmark without colliding with the absolutely
+  positioned theme toggle, so hide it there.
+*/
+@media screen and (max-width: 359px) {
+  .brand-name {
+    display: none;
+  }
+}
+
+/*
   Mobile-only theme toggle, positioned next to the SubNav hamburger button.
   On desktop the toggle lives inside the nav links; on narrow viewports those
   links collapse into a closed overlay, so we surface a standalone toggle
@@ -150,7 +238,7 @@ section {
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 19px;
+    top: 27px;
     right: 60px;
     z-index: 9999;
     width: 32px;
@@ -165,6 +253,17 @@ section {
   /* Hide the duplicate theme toggle inside the collapsed menu on mobile */
   [class*="links-overlay"] li:has(a[aria-label*="θέμα"]) {
     display: none !important;
+  }
+
+  /*
+    The expanded mobile menu overlay ships with a transparent background, so
+    the hero content behind it bleeds through and looks broken. Give the
+    overlay (and its container) a solid canvas background so the links are
+    legible and nothing shows through.
+  */
+  [class*="SubNav__container"],
+  [class*="SubNav__links-overlay"] {
+    background-color: var(--brand-color-canvas-default) !important;
   }
 }
 
