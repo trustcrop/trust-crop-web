@@ -16,6 +16,7 @@
 /* lift cta tune v14 */
 /* pricing hover lift v15 */
 
+
 :root {
   --background: #ffffff;
   --background-rgb: 255, 255, 255;
@@ -120,37 +121,12 @@ section {
   flex: 1 1 100% !important;
 }
 
-/*
-  Keep the theme toggle grouped with the "Ξεκινήστε" Action on the right.
-  The toggle's <li> takes the auto margin (pushing it + the Action right),
-  and the Action's <li> sits immediately after it with no extra margin.
-*/
-[class*="links-overlay"] li:has(a[aria-label*="θέμα"]) {
-  margin-inline-start: auto !important;
-  margin-inline-end: 1.5rem !important;
-}
-
-[class*="SubNav__action-container"] {
-  margin-inline-start: 0 !important;
-}
-
-/*
-  Brand heading: logo + "Trust Crop" wordmark. Remove Primer's vertical
-  divider that the SubNav heading normally renders after it, and reveal the
-  wordmark once on page load (slides out left→right, then hides in reverse).
-*/
-.brand-heading {
-  display: inline-flex;
-  align-items: center;
-  flex: 0 0 auto;
-  gap: 0.5rem;
-}
-
+/* Remove the vertical divider line that SubNav renders after the heading */
 [class*="SubNav__heading-separator"] {
   display: none !important;
 }
 
-/* Remove the vertical divider border on the heading container */
+/* Remove the border on the heading container */
 [class*="SubNav__heading-container"] {
   border-inline-end: none !important;
 }

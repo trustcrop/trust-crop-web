@@ -36,7 +36,7 @@ export default function RootLayout({
       className={`${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <PrimerBrandProvider colorMode="dark">{children}</PrimerBrandProvider>
+        <PrimerBrandProvider>{children}</PrimerBrandProvider>
       </body>
     </html>
   );
