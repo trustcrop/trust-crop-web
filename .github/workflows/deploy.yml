@@ -40,7 +40,7 @@ jobs:
       # ── 5. CNAME ─────────────────────────────────────────────────────────────
       # Written on the fly so it's never stored in source.
       - name: 📝 Write CNAME
-        run: echo "trust-crop.org" > ./out/CNAME
+        run: echo "trustcrop.gr" > ./out/CNAME
 
       # ── 6. GitHub Pages ──────────────────────────────────────────────────────
       # Pushes ./out to the gh-pages branch (created automatically if missing).
