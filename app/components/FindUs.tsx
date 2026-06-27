@@ -91,7 +91,7 @@ const socialLinks: SocialLink[] = [
 
 export function FindUs() {
     return (
-        <Section>
+        <Section id="find-us">
             <Stack direction="vertical" gap={48} alignItems="center">
                 <Stack direction="vertical" gap={8} alignItems="center">
                     <Heading as="h2" size="3" style={{textAlign: 'center'}}>
@@ -136,6 +136,7 @@ export function FindUs() {
         </Section>
     )
 }
+
 
 
 

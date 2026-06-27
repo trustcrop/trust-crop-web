@@ -21,7 +21,7 @@ const ImagePlaceholder = () => (
 
 export function Features() {
     return (
-        <Section paddingBlockStart="none">
+        <Section id="features" paddingBlockStart="none">
             <Bento>
 
                 {/* ── Row 1 ── Αγροτεμάχια (7) + Εργασίες & Αποθήκη (5) */}

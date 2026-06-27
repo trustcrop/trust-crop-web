@@ -21,9 +21,8 @@ export function AppHeader() {
                 </SubNav.Heading>
 
                 <SubNav.Link href="#features">{nav.features}</SubNav.Link>
-                <SubNav.Link href="#how-it-works">{nav.howItWorks}</SubNav.Link>
                 <SubNav.Link href="#pricing">{nav.pricing}</SubNav.Link>
-                <SubNav.Link href="https://app.trust-crop.org/support">{nav.contact}</SubNav.Link>
+                <SubNav.Link href="#find-us">{nav.contact}</SubNav.Link>
 
                 <SubNav.Action href="https://app.trustcrop.gr" variant="accent">
                     {nav.getStarted}
