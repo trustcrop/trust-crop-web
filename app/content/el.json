@@ -8,7 +8,7 @@
     "getStarted": "Ξεκινήστε"
   },
   "hero": {
-    "label": "Ολοκληρωμένη διαχείριση αγροδιατροφικών προϊόντων",
+    "label": "Ολοκληρωμένη Διαχείριση στον Αγροδιατροφικό Τομέα",
     "heading": ["Το μέλλον στην διαχείρηση της παραγωγής"],
     "description": "Το TrustCrop καλύπτει ενιαία ολόκληρο τον κύκλο ζωής των αγροδιατροφικών προϊόντων — από την παραγωγή και τη συσκευασία έως τη διαχείριση αποθεμάτων και την ανάλυση δεδομένων.",
     "primaryAction": "Ξεκινήστε",
@@ -108,7 +108,7 @@
           "Καταγραφή 50 Αγορών ή Πωλήσεων / Μήνα"
         ],
         "excluded": [],
-        "primaryAction": { "text": "Επιλογή πακέτου", "href": "https://app.trust-crop.org/pricing" }
+        "primaryAction": { "text": "Επιλογή πακέτου", "href": "https://app.trustcrop.gr/pricing" }
       },
       {
         "label": { "text": "Προτεινόμενο", "color": "green" },
@@ -129,7 +129,7 @@
           "Προτεραιότητα στην υποστήριξη"
         ],
         "excluded": [],
-        "primaryAction": { "text": "Επιλογή πακέτου", "href": "https://app.trust-crop.org/pricing" }
+        "primaryAction": { "text": "Επιλογή πακέτου", "href": "https://app.trustcrop.gr/pricing" }
       },
       {
         "heading": "Προσαρμοσμένο",
@@ -143,7 +143,7 @@
           "Επικοινωνήστε μαζί μας για να προσαρμόσουμε το πλάνο στις δικές σας ανάγκες"
         ],
         "excluded": [],
-        "primaryAction": { "text": "Επικοινωνήστε μαζί μας", "href": "https://app.trust-crop.org/support" }
+        "primaryAction": { "text": "Επικοινωνήστε μαζί μας", "href": "https://app.trustcrop.gr/support" }
       }
     ]
   },

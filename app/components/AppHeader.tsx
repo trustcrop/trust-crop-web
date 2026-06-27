@@ -15,7 +15,7 @@ export function AppHeader() {
             <SubNav>
                 <SubNav.Heading href="/">
                     <Stack padding="none" direction="horizontal" gap="condensed" alignItems="center">
-                        <Image src="/images/logo.png" alt="TrustCrop" width={26} height={26}/>
+                        <Image src="/apple-icon.png" alt="TrustCrop" width={26} height={26}/>
                         <Text size="200" weight="medium" style={{lineHeight: 1}}>TrustCrop</Text>
                     </Stack>
                 </SubNav.Heading>
@@ -25,7 +25,7 @@ export function AppHeader() {
                 <SubNav.Link href="#pricing">{nav.pricing}</SubNav.Link>
                 <SubNav.Link href="https://app.trust-crop.org/support">{nav.contact}</SubNav.Link>
 
-                <SubNav.Action href="https://app.trust-crop.org" variant="accent">
+                <SubNav.Action href="https://app.trustcrop.gr" variant="accent">
                     {nav.getStarted}
                 </SubNav.Action>
             </SubNav>

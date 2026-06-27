@@ -1,52 +1,32 @@
 'use client'
 
-import {BreakoutBanner, Link, Label, Section} from '@primer/react-brand'
+import {Hero, Section} from '@primer/react-brand'
 import content from '../content/el.json'
+import {GeometricAccent} from './GeometricAccent'
 
 const {hero} = content
-
-const bannerImage = 'https://github.com/user-attachments/assets/a28110fd-d019-41a4-8f80-b49ae8895708';
-
-// const bannerImage = "/images/break-banner.jpg"
 
 export function HeroSection() {
     return (
         <Section paddingBlockStart="none">
-            <BreakoutBanner
-                align="center"
-                backgroundImageSrc={{
-                    narrow: bannerImage,
-                    regular: bannerImage,
-                    wide: bannerImage,
-                }}
-                backgroundImageSize="cover"
-                backgroundImagePosition="center"
-                style={{paddingBlock: 'clamp(5rem, 12vw, 10rem)'}}
-            >
-                <Label color="green" size="medium">
-                    {hero.label}
-                </Label>
+            <Hero align="center" variant="gridline-expressive">
+                <Hero.Label>{hero.label}</Hero.Label>
 
-                <BreakoutBanner.Heading>
+                <Hero.Heading size="2">
                     {hero.heading[0]}
                     {hero.heading[1] ? <><br/>{hero.heading[1]}</> : null}
-                </BreakoutBanner.Heading>
+                </Hero.Heading>
 
-                <BreakoutBanner.Description>
+                <Hero.Description>
                     {hero.description}
-                </BreakoutBanner.Description>
+                </Hero.Description>
 
-                <BreakoutBanner.LinkGroup>
-                    <Link
-                        href="https://app.trustcrop.gr"
-                        variant="accent"
-                        size="large"
-                        arrowDirection="end"
-                    >
-                        {hero.primaryAction}
-                    </Link>
-                </BreakoutBanner.LinkGroup>
-            </BreakoutBanner>
+                <Hero.PrimaryAction href="https://app.trustcrop.gr">
+                    {hero.primaryAction}
+                </Hero.PrimaryAction>
+            </Hero>
+
+            <GeometricAccent/>
         </Section>
     )
 }

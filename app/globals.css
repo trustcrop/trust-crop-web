@@ -453,4 +453,60 @@ section {
   box-shadow: var(--brand-shadow-medium, 0 6px 20px rgba(0, 0, 0, 0.35));
 }
 
+/*
+  Small geometric accent animation beneath the hero — concentric rotating
+  squares with a pulsing core and orbiting dots, all in green tones.
+*/
+.geo-accent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.geo-accent .geo-square-outer {
+  transform-origin: 48px 48px;
+  animation: geo-spin 9s linear infinite;
+}
+
+.geo-accent .geo-square-inner {
+  transform-origin: 48px 48px;
+  animation: geo-spin-reverse 6s linear infinite;
+}
+
+.geo-accent .geo-dot {
+  transform-origin: 48px 48px;
+  animation: geo-pulse 2.4s ease-in-out infinite;
+}
+
+.geo-accent .geo-orbit {
+  transform-origin: 48px 48px;
+  animation: geo-spin 7s linear infinite;
+}
+
+@keyframes geo-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes geo-spin-reverse {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+@keyframes geo-pulse {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%      { transform: scale(1.6); opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .geo-accent .geo-square-outer,
+  .geo-accent .geo-square-inner,
+  .geo-accent .geo-dot,
+  .geo-accent .geo-orbit {
+    animation: none;
+  }
+}
+
 
