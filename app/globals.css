@@ -290,57 +290,6 @@ section {
   transform: translateY(-1.5rem);
 }
 
-/*
-  Two-column hero layout
-  Left  → Label + Heading
-  Right → Description only (justified), no CTA button
-*/
-.hero-two-col {
-  padding-block: clamp(3rem, 8vw, 6rem);
-}
-
-.hero-col {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  gap: 1.25rem;
-}
-
-.hero-col--left {
-  padding-inline-end: clamp(0rem, 4vw, 3rem);
-}
-
-.hero-col--right {
-  padding-inline-start: clamp(0rem, 4vw, 2rem);
-}
-
-.hero-main-heading {
-  margin-block: 0 !important;
-}
-
-.hero-desc {
-  margin-block: 0 !important;
-  line-height: 1.8 !important;
-  text-align: justify !important;
-  text-justify: inter-word;
-}
-
-@media (max-width: 767px) {
-  .hero-col--left,
-  .hero-col--right {
-    padding-inline: 0;
-    gap: 1rem;
-  }
-
-  .hero-col--left {
-    margin-block-end: 2rem;
-  }
-
-  .hero-desc {
-    text-align: left !important;
-  }
-}
 
 /*
   Feature cards — wrap each Pillar in an elevated, bordered card with a subtle

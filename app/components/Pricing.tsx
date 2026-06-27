@@ -13,8 +13,8 @@ import content from '../content/el.json'
 
 const {pricing} = content
 
-// Champion-level pricing: only the first 3 plans for now.
-const plans = pricing.plans.slice(0, 3)
+// All 4 tiers: Freemium, Standard, Premium, Enterprise
+const plans = pricing.plans
 
 type Billing = 'monthly' | 'annual'
 

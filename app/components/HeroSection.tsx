@@ -1,43 +1,69 @@
 'use client'
 
-import {Grid, Heading, Label, Section, Text} from '@primer/react-brand'
+import {
+    ChecklistIcon,
+    CopilotIcon,
+    DatabaseIcon,
+    FileDirectoryIcon,
+    InboxIcon,
+    PeopleIcon,
+} from '@primer/octicons-react'
+import {Heading, Label, Section, Stack, Text} from '@primer/react-brand'
 import content from '../content/el.json'
 import {GeometricAccent} from './GeometricAccent'
 
 const {hero} = content
 
-const improvedDescription = `Το TrustCrop φέρνει κάθε πτυχή της αγροδιατροφικής αλυσίδας σε μία ενιαία ψηφιακή πλατφόρμα. Από την καταγραφή καλλιεργειών και τη διαχείριση εισροών έως τη συσκευασία, την ιχνηλασιμότητα και την ανάλυση δεδομένων σε πραγματικό χρόνο — αποκτήστε πλήρη έλεγχο και λαμβάνετε καλύτερες αποφάσεις καθημερινά.`
+const features = [
+    {Icon: FileDirectoryIcon, label: 'Αγροτεμάχια', desc: 'Καταγραφή και γεωχωρική απεικόνιση αγροτεμαχίων με φίλτρα ανά καλλιέργεια, νομό, ΟΤΑ και ΚΑΕΚ'},
+    {Icon: ChecklistIcon,     label: 'Εργασίες & Αποθήκη', desc: 'Προγραμματισμός εργασιών αγρού και διαχείριση αποθεμάτων εισροών, λιπασμάτων και εξοπλισμού'},
+    {Icon: DatabaseIcon,      label: 'Μητρώο Φυτοπροστατευτικών', desc: 'Πλήρης κατάλογος προϊόντων με αναλυτικές πληροφορίες και αγαπημένα'},
+    {Icon: PeopleIcon,        label: 'Εργατικό Δυναμικό', desc: 'Μητρώο εργαζομένων, παρουσίες, αναθέσεις εργασίας και μισθοδοσία'},
+    {Icon: CopilotIcon,       label: 'Τεχνητή Νοημοσύνη', desc: 'Γεωργικές συμβουλές μέσω συνομιλίας και διάγνωση φυτικών παθήσεων μέσω φωτογραφίας'},
+    {Icon: InboxIcon,         label: 'Ειδοποιήσεις', desc: 'Άμεσες ειδοποιήσεις υποστήριξης αποφάσεων με επίπεδο κινδύνου ανά αγροτεμάχιο και καλλιέργεια'},
+]
 
 export function HeroSection() {
     return (
         <Section paddingBlockStart="none">
-            <div className="hero-two-col">
-                <Grid fullWidth>
-                    {/* Left: label + heading */}
-                    <Grid.Column span={{xsmall: 12, medium: 6}}>
-                        <div className="hero-col hero-col--left">
-                            <Label color="green" size="large">{hero.label}</Label>
-                            <Heading as="h1" size="2" className="hero-main-heading">
-                                {hero.heading[0]}
-                                {hero.heading[1] ? <><br/>{hero.heading[1]}</> : null}
-                            </Heading>
-                        </div>
-                    </Grid.Column>
+            <Stack
+                direction={{narrow: 'vertical', regular: 'horizontal'}}
+                gap={48}
+                alignItems="center"
+                style={{paddingBlock: 'clamp(3rem, 8vw, 6rem)'}}
+            >
+                {/* Left: label + heading + subtitle + animation */}
+                <Stack direction="vertical" gap={24} alignItems="center" style={{flex: 1}}>
+                    <Label color="green" size="large">{hero.label}</Label>
+                    <Heading as="h1" size="2" style={{textAlign: 'center'}}>
+                        {hero.heading[0]}
+                    </Heading>
+                    <Text as="p" size="200" variant="muted" style={{textAlign: 'center'}}>
+                        Το <span style={{color: 'var(--brand-color-accent-primary, #2da44e)', fontWeight: 600}}>TrustCrop</span>
+                        {' '}είναι μια ολοκληρωμένη ψηφιακή πλατφόρμα διαχείρισης γεωργικής εκμετάλλευσης.
+                    </Text>
+                    <GeometricAccent/>
+                </Stack>
 
-                    {/* Right: improved description, no button */}
-                    <Grid.Column span={{xsmall: 12, medium: 6}}>
-                        <div className="hero-col hero-col--right">
-                            <Text as="p" size="300" variant="muted" className="hero-desc">
-                                {improvedDescription}
+                {/* Right: feature list with octicons */}
+                <Stack direction="vertical" gap={16} style={{flex: 1}}>
+                    {features.map(({Icon, label, desc}) => (
+                        <Stack key={label} direction="horizontal" gap={12} alignItems="flex-start">
+                            <span style={{
+                                flexShrink: 0,
+                                marginTop: '3px',
+                                color: 'var(--brand-color-accent-primary, #2da44e)',
+                            }}>
+                                <Icon size={16}/>
+                            </span>
+                            <Text as="span" size="100">
+                                <Text as="span" size="100" weight="semibold">{label} — </Text>
+                                {desc}
                             </Text>
-                        </div>
-                    </Grid.Column>
-                </Grid>
-            </div>
-
-            <div style={{display: 'flex', justifyContent: 'center', width: '100%', marginTop: '2.5rem'}}>
-                <GeometricAccent/>
-            </div>
+                        </Stack>
+                    ))}
+                </Stack>
+            </Stack>
         </Section>
     )
 }
