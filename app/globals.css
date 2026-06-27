@@ -226,16 +226,34 @@ section {
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 27px;
-    right: 60px;
-    z-index: 9999;
-    width: 32px;
-    height: 32px;
+    /*
+      Anchor to the center of the 60px header row (top: 30px) rather than 50%
+      of the whole header Box — when the mobile links overlay is collapsed it
+      still adds height below the header, which would otherwise drag a 50%
+      anchor downward and misalign the button with the hamburger.
+    */
+    top: 30px;
+    transform: translateY(-50%);
+    right: 64px;
+    /*
+      Primer's hamburger wrapper (.SubNav__overlay-toggle) is width:100% at
+      z-index:9999 and comes later in the DOM, so at an equal z-index it would
+      paint over this button and swallow taps. Sit one layer above it.
+    */
+    z-index: 10000;
+    width: 36px;
+    height: 36px;
     color: var(--brand-color-text-default);
-    background-color: var(--brand-SubNav-color-link-bgColor);
-    border: none;
+    background-color: transparent;
+    border: 1px solid var(--brand-color-border-muted, rgba(140, 140, 140, 0.3));
     border-radius: var(--brand-borderRadius-full);
     cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+  }
+
+  .mobile-theme-toggle:hover {
+    background-color: var(--brand-color-canvas-subtle);
+    border-color: var(--brand-color-border-default);
   }
 
   /* Hide the duplicate theme toggle inside the collapsed menu on mobile */
@@ -252,6 +270,28 @@ section {
   [class*="SubNav__container"],
   [class*="SubNav__links-overlay"] {
     background-color: var(--brand-color-canvas-default) !important;
+  }
+}
+
+/*
+  Desktop: icon-only theme toggle link — centers the sun/moon glyph and keeps
+  a tight square footprint so it sits cleanly just left of the CTA button.
+*/
+.theme-toggle-desktop {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 2.25rem;
+}
+
+.theme-toggle-desktop svg {
+  display: block;
+}
+
+@media screen and (max-width: 63.24rem) {
+  /* On mobile the floating .mobile-theme-toggle button is used instead */
+  .theme-toggle-desktop {
+    display: none !important;
   }
 }
 

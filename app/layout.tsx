@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   description:
     "Πλήρης έλεγχος παραγωγής, συσκευαστηρίου και αποθήκης σε μία ενιαία πλατφόρμα.",
   icons: {
-    icon: { url: "/logo-64.png", type: "image/png", sizes: "64x64" },
+    icon: { url: "/apple-icon.png", type: "image/png" },
     apple: { url: "/apple-icon.png", type: "image/png", sizes: "512x512" },
   },
 };
@@ -40,7 +40,7 @@ export default function RootLayout({
         {/* Preconnect to Google Fonts origin used by next/font at build time */}
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/>
         {/* Preload the header logo — it's the first image the browser paints */}
-        <link rel="preload" href="/logo-64.png" as="image" type="image/png"/>
+        <link rel="preload" href="/apple-icon.png" as="image" type="image/png"/>
       </head>
       <body className="min-h-full flex flex-col">
         <PrimerBrandProvider>{children}</PrimerBrandProvider>
