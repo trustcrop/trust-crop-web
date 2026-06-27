@@ -4,8 +4,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 // Primer Brand: base design tokens + component styles
 import "@primer/react-brand/lib/css/main.css";
-// Primer Brand: Mona Sans, Hubot Sans, Mona Sans Mono variable fonts
-import "@primer/react-brand/fonts/fonts.css";
+// NOTE: @primer/react-brand/fonts/fonts.css intentionally omitted —
+// it loads heavy Mona Sans / Hubot Sans variable fonts as a render-blocking
+// stylesheet. We override Primer's font tokens to use Inter + system fonts instead.
 import { PrimerBrandProvider } from "./components/PrimerBrandProvider";
 
 const inter = Inter({

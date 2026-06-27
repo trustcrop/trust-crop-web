@@ -15,7 +15,7 @@ export function AppHeader() {
             <SubNav>
                 <SubNav.Heading href="/">
                     <Stack padding="none" direction="horizontal" gap="condensed" alignItems="center">
-                        <Image src="/apple-icon.png" alt="TrustCrop" width={26} height={26}/>
+                        <Image src="/apple-icon.png" alt="TrustCrop" width={26} height={26} style={{width: 26, height: 26, objectFit: 'contain'}}/>
                         <Text size="200" weight="medium" style={{lineHeight: 1}}>TrustCrop</Text>
                     </Stack>
                 </SubNav.Heading>

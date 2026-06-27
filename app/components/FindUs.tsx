@@ -1,5 +1,3 @@
-'use client'
-
 import {Heading, Section, Stack, Text} from '@primer/react-brand'
 
 interface SocialLink {
@@ -110,23 +108,7 @@ export function FindUs() {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label={label}
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: 'currentColor',
-                                opacity: 0.6,
-                                textDecoration: 'none',
-                                transition: 'opacity 0.2s, transform 0.15s',
-                            }}
-                            onMouseEnter={e => {
-                                e.currentTarget.style.opacity = '1'
-                                e.currentTarget.style.transform = 'translateY(-2px)'
-                            }}
-                            onMouseLeave={e => {
-                                e.currentTarget.style.opacity = '0.6'
-                                e.currentTarget.style.transform = 'translateY(0)'
-                            }}
+                            className="find-us-link"
                         >
                             {icon}
                         </a>
@@ -136,11 +118,3 @@ export function FindUs() {
         </Section>
     )
 }
-
-
-
-
-
-
-
-
