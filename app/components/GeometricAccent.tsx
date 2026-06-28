@@ -27,7 +27,6 @@ export function GeometricAccent() {
     // Animate — bypass React reconciliation by mutating SVG attrs directly
     useEffect(() => {
         if (!geoJson) return
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
         const projection = d3.geoOrthographic()
             .scale(SIZE / 2 - 2)
@@ -37,17 +36,26 @@ export function GeometricAccent() {
         const path      = d3.geoPath(projection)
         const graticule = d3.geoGraticule10()
 
+        // Always paint at least one static frame so the globe is visible
+        // even when the animation loop is disabled (reduced-motion / SSR).
+        const render = (rot: number) => {
+            projection.rotate([rot, -20])
+            landRef.current?.setAttribute('d',      path(geoJson)          ?? '')
+            sphereRef.current?.setAttribute('d',    path({type: 'Sphere'}) ?? '')
+            graticuleRef.current?.setAttribute('d', path(graticule)        ?? '')
+        }
+
+        render(0)
+
+        // Skip continuous animation when the user prefers reduced motion
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
         let rotation = 0
         let rafId: number
 
         const tick = () => {
             rotation += 0.2
-            projection.rotate([rotation, -20])
-
-            landRef.current?.setAttribute('d',       path(geoJson)    ?? '')
-            sphereRef.current?.setAttribute('d',     path({type: 'Sphere'}) ?? '')
-            graticuleRef.current?.setAttribute('d',  path(graticule)  ?? '')
-
+            render(rotation)
             rafId = requestAnimationFrame(tick)
         }
 
