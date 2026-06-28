@@ -568,13 +568,7 @@ section {
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .earth-map {
-    animation: none;
-  }
-}
-
-/* ── Find Us section: social icon hover via pure CSS (no JS style mutation) ── */
+/* Sphere sheen — radial highlight top-left */
 .find-us-link {
   display: inline-flex;
   align-items: center;

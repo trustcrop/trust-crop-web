@@ -47,8 +47,6 @@ export function GeometricAccent() {
 
         render(0)
 
-        // Skip continuous animation when the user prefers reduced motion
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
         let rotation = 0
         let rafId: number
