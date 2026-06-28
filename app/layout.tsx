@@ -11,7 +11,7 @@ import { PrimerBrandProvider } from "./components/PrimerBrandProvider";
 
 const inter = Inter({
   subsets: ["greek", "latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-inter",
   display: "swap",
 });

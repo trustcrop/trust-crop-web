@@ -1,24 +1,36 @@
 'use client'
 
-import {ChecklistIcon, CopilotIcon, DatabaseIcon, FileDirectoryIcon, InboxIcon, PeopleIcon} from '@primer/octicons-react'
-import {Bento, Icon, Section, Text} from '@primer/react-brand'
+import {Bento, Section} from '@primer/react-brand'
+import Image from 'next/image'
+import content from '../content/el.json'
 import {useTheme} from './ThemeContext'
 
-const ImagePlaceholder = () => (
-    <div style={{
-        width: '100%',
-        height: '100%',
-        minHeight: 220,
-        background: 'rgba(46,164,78,0.06)',
-        border: '1.5px dashed rgba(46,164,78,0.25)',
-        borderRadius: 12,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    }}>
-        <span style={{color: 'rgba(46,164,78,0.4)', fontSize: 13, letterSpacing: '0.05em'}}>image</span>
+type CardData = {src: string; title: string; description: string; width: number; height: number}
+
+const OverlayCard = ({src, title, description, width, height}: CardData) => (
+    <div style={{position: 'relative', width: '100%'}}>
+        <Image
+            src={src}
+            alt={title}
+            width={width}
+            height={height}
+            style={{width: '100%', height: 'auto', display: 'block', borderRadius: 12}}
+        />
+        <div style={{
+            position: 'absolute', inset: 0,
+            borderRadius: 12,
+            fontFamily: 'var(--font-inter), system-ui, sans-serif',
+            background: 'linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.18) 50%, transparent 100%)',
+            display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
+            padding: '24px 28px',
+        }}>
+            <span style={{color: '#fff', fontWeight: 700, fontSize: 22, lineHeight: 1.2, marginBottom: 6}}>{title}</span>
+            <span style={{color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.5}}>{description}</span>
+        </div>
     </div>
 )
+
+const [agrotemachia, apothiki, mitroo, ergatiko, eidopoiiseis, ai] = content.featureCards
 
 export function Features() {
     const {colorMode} = useTheme()
@@ -27,56 +39,32 @@ export function Features() {
         <Section id="features" paddingBlockStart="none">
             <Bento>
 
-                {/* ── Row 1 ── Αγροτεμάχια (7) + Εργασίες & Αποθήκη (5) */}
+                {/* Row 1 */}
                 <Bento.Item columnSpan={{xsmall: 12, small: 12, medium: 7}} rowSpan={2} flow="column" colorMode={colorMode}>
-                    <Bento.Content padding="spacious" verticalAlign="start" leadingVisual={<Icon icon={FileDirectoryIcon} color="green" hasBackground size="medium"/>}>
-                        <Bento.Heading as="h3">Αγροτεμάχια</Bento.Heading>
-                        <Text variant="muted" size="200">Καταγραφή και γεωχωρική απεικόνιση αγροτεμαχίων με φίλτρα ανά καλλιέργεια, νομό, ΟΤΑ και ΚΑΕΚ.</Text>
-                    </Bento.Content>
-                    <Bento.Visual><ImagePlaceholder/></Bento.Visual>
+                    <Bento.Visual padding="none"><OverlayCard {...agrotemachia} /></Bento.Visual>
                 </Bento.Item>
 
                 <Bento.Item columnSpan={{xsmall: 12, small: 12, medium: 5}} rowSpan={2} flow="column" colorMode={colorMode}>
-                    <Bento.Content padding="spacious" verticalAlign="start" leadingVisual={<Icon icon={ChecklistIcon} color="green" hasBackground size="medium"/>}>
-                        <Bento.Heading as="h3">Εργασίες & Αποθήκη</Bento.Heading>
-                        <Text variant="muted" size="200">Προγραμματισμός εργασιών αγρού και διαχείριση αποθεμάτων εισροών, λιπασμάτων και εξοπλισμού.</Text>
-                    </Bento.Content>
-                    <Bento.Visual><ImagePlaceholder/></Bento.Visual>
+                    <Bento.Visual padding="none"><OverlayCard {...apothiki} /></Bento.Visual>
                 </Bento.Item>
 
-                {/* ── Row 2 ── Μητρώο Φυτοπροστατευτικών (12) */}
+                {/* Row 2 */}
                 <Bento.Item columnSpan={12} flow={{xsmall: 'row', small: 'row', medium: 'column'}} colorMode={colorMode}>
-                    <Bento.Content padding="spacious" verticalAlign="start" leadingVisual={<Icon icon={DatabaseIcon} color="green" hasBackground size="medium"/>}>
-                        <Bento.Heading as="h3">Μητρώο Φυτοπροστατευτικών</Bento.Heading>
-                        <Text variant="muted" size="200">Πλήρης κατάλογος προϊόντων με αναλυτικές πληροφορίες και αγαπημένα.</Text>
-                    </Bento.Content>
-                    <Bento.Visual><ImagePlaceholder/></Bento.Visual>
+                    <Bento.Visual padding="none"><OverlayCard {...mitroo} /></Bento.Visual>
                 </Bento.Item>
 
-                {/* ── Row 3 ── Εργατικό Δυναμικό (7) + Ειδοποιήσεις (5) */}
+                {/* Row 3 */}
                 <Bento.Item columnSpan={{xsmall: 12, small: 12, medium: 7}} rowSpan={2} flow="column" colorMode={colorMode}>
-                    <Bento.Content padding="spacious" verticalAlign="start" leadingVisual={<Icon icon={PeopleIcon} color="green" hasBackground size="medium"/>}>
-                        <Bento.Heading as="h3">Εργατικό Δυναμικό</Bento.Heading>
-                        <Text variant="muted" size="200">Μητρώο εργαζομένων, παρουσίες, αναθέσεις εργασίας και μισθοδοσία.</Text>
-                    </Bento.Content>
-                    <Bento.Visual><ImagePlaceholder/></Bento.Visual>
+                    <Bento.Visual padding="none"><OverlayCard {...ergatiko} /></Bento.Visual>
                 </Bento.Item>
 
                 <Bento.Item columnSpan={{xsmall: 12, small: 12, medium: 5}} rowSpan={2} flow="column" colorMode={colorMode}>
-                    <Bento.Content padding="spacious" verticalAlign="start" leadingVisual={<Icon icon={InboxIcon} color="green" hasBackground size="medium"/>}>
-                        <Bento.Heading as="h3">Ειδοποιήσεις</Bento.Heading>
-                        <Text variant="muted" size="200">Άμεσες ειδοποιήσεις υποστήριξης αποφάσεων με επίπεδο κινδύνου ανά αγροτεμάχιο και καλλιέργεια.</Text>
-                    </Bento.Content>
-                    <Bento.Visual><ImagePlaceholder/></Bento.Visual>
+                    <Bento.Visual padding="none"><OverlayCard {...eidopoiiseis} /></Bento.Visual>
                 </Bento.Item>
 
-                {/* ── Row 4 ── Τεχνητή Νοημοσύνη (12) */}
+                {/* Row 4 */}
                 <Bento.Item columnSpan={12} flow={{xsmall: 'row', small: 'row', medium: 'column'}} colorMode={colorMode}>
-                    <Bento.Content padding="spacious" verticalAlign="start" leadingVisual={<Icon icon={CopilotIcon} color="green" hasBackground size="medium"/>}>
-                        <Bento.Heading as="h3">Τεχνητή Νοημοσύνη</Bento.Heading>
-                        <Text variant="muted" size="200">Γεωργικές συμβουλές μέσω συνομιλίας και διάγνωση φυτικών παθήσεων μέσω φωτογραφίας.</Text>
-                    </Bento.Content>
-                    <Bento.Visual><ImagePlaceholder/></Bento.Visual>
+                    <Bento.Visual padding="none"><OverlayCard {...ai} /></Bento.Visual>
                 </Bento.Item>
 
             </Bento>
