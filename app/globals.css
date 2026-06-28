@@ -459,7 +459,9 @@ section {
   align-items: center;
 }
 
-/* Raise pricing cards on hover for an interactive lift effect */
+/* Raise pricing cards on hover — cards-gradient variant gives each card its
+   own independent background and border-radius, so lift + shadow work cleanly
+   in both light and dark mode with no clipping or strip-edge artefacts. */
 #pricing [class*="PricingOptions-module__PricingOptions__item"] {
   transition:
     transform 0.25s ease,
@@ -469,6 +471,13 @@ section {
 #pricing [class*="PricingOptions-module__PricingOptions__item"]:hover {
   transform: translateY(-8px);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+}
+
+/* Stronger shadow in light mode so the lift reads clearly on a white page */
+[data-color-mode="light"] #pricing [class*="PricingOptions-module__PricingOptions__item"]:hover {
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.08),
+    0 20px 44px rgba(0, 0, 0, 0.15);
 }
 
 
@@ -519,22 +528,26 @@ section {
 }
 
 .geo-accent .geo-square-outer {
-  transform-origin: 48px 48px;
+  transform-box: fill-box;
+  transform-origin: center;
   animation: geo-spin 9s linear infinite;
 }
 
 .geo-accent .geo-square-inner {
-  transform-origin: 48px 48px;
+  transform-box: fill-box;
+  transform-origin: center;
   animation: geo-spin-reverse 6s linear infinite;
 }
 
 .geo-accent .geo-dot {
-  transform-origin: 48px 48px;
+  transform-box: fill-box;
+  transform-origin: center;
   animation: geo-pulse 2.4s ease-in-out infinite;
 }
 
 .geo-accent .geo-orbit {
-  transform-origin: 48px 48px;
+  transform-box: fill-box;
+  transform-origin: center;
   animation: geo-spin 7s linear infinite;
 }
 

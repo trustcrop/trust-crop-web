@@ -55,7 +55,7 @@ export function Pricing() {
                 </Stack>
 
                 {/* default-gradient = connected tiers, no gaps between them */}
-                <PricingOptions variant="default-gradient">
+                <PricingOptions variant="cards-gradient">
                     {plans.map((plan, i) => {
                         const price = plan.price[billing]
                         const isHighlighted = 'label' in plan && Boolean(plan.label)
