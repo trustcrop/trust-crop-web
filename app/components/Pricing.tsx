@@ -59,6 +59,8 @@ export function Pricing() {
                     {plans.map((plan, i) => {
                         const price = plan.price[billing]
                         const isHighlighted = 'label' in plan && Boolean(plan.label)
+                        const isEnterprise = plan.heading === 'Enterprise'
+                        void isEnterprise // styling handled via CSS in globals.css
                         return (
                             <PricingOptions.Item
                                 key={plan.heading}
@@ -66,7 +68,7 @@ export function Pricing() {
                             >
                                 {isHighlighted && plan.label && (
                                     <PricingOptions.Label
-                                        color={plan.label.color as 'blue' | 'green' | 'purple'}
+                                        color={plan.label.color as 'blue' | 'green' | 'purple' | 'pink'}
                                     >
                                         {plan.label.text}
                                     </PricingOptions.Label>

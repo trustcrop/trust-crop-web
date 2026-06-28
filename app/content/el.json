@@ -135,7 +135,7 @@
         "primaryAction": { "text": "Επιλογή πακέτου", "href": "https://app.trustcrop.gr/pricing" }
       },
       {
-        "label": { "text": "Enterprise", "color": "purple" },
+        "label": { "text": "Custom", "color": "pink" },
         "heading": "Enterprise",
         "description": "Οργανισμοί & συνεταιρισμοί",
         "price": {

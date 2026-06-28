@@ -480,6 +480,73 @@ section {
     0 20px 44px rgba(0, 0, 0, 0.15);
 }
 
+/* Premium card (3rd) — green border glow */
+#pricing [class*="PricingOptions-module__PricingOptions__item"]:nth-child(3)::before {
+  border-color: rgba(46, 160, 67, 0.75) !important;
+  box-shadow: 0 0 18px 2px rgba(46, 160, 67, 0.3);
+}
+
+/* Enterprise card (4th) — pink tone override */
+#pricing [class*="PricingOptions-module__PricingOptions__item"]:nth-child(4) {
+  background: linear-gradient(180deg, #3b0f24 0%, #1e0a14 100%) !important;
+}
+
+/* Pink border glow for the Enterprise card pseudo-element */
+#pricing [class*="PricingOptions-module__PricingOptions__item"]:nth-child(4)::before {
+  border-color: rgba(236, 72, 153, 0.6) !important;
+  box-shadow: 0 0 18px 2px rgba(236, 72, 153, 0.25);
+}
+
+/* Pink "Custom" label chip — lighter pink text */
+#pricing [class*="PricingOptions-module__PricingOptions__item"]:nth-child(4) [class*="Label-module__Label"] {
+  --brand-Label-color: #fce7f3 !important;
+  --brand-Label-color-start: #fce7f3 !important;
+  color: #fce7f3 !important;
+}
+
+/* Pink checkmark ticks — inline style uses fill so we need !important */
+#pricing [class*="PricingOptions-module__PricingOptions__item"]:nth-child(4) [class*="ListItem__leading-visual"] svg,
+#pricing [class*="PricingOptions-module__PricingOptions__item"]:nth-child(4) [class*="ListItem__leading-visual"] path {
+  fill: #ec4899 !important;
+}
+
+/* Pink CTA button for the Enterprise card — target both possible variant classes */
+#pricing [class*="PricingOptions-module__PricingOptions__item"]:nth-child(4) [class*="Button--accent"],
+#pricing [class*="PricingOptions-module__PricingOptions__item"]:nth-child(4) [class*="Button--primary"] {
+  background-color: #db2777 !important;
+  border-color: #db2777 !important;
+  color: #fff !important;
+  background: #db2777 !important;
+}
+#pricing [class*="PricingOptions-module__PricingOptions__item"]:nth-child(4) [class*="Button--accent"]:hover,
+#pricing [class*="PricingOptions-module__PricingOptions__item"]:nth-child(4) [class*="Button--primary"]:hover {
+  background-color: #be185d !important;
+  border-color: #be185d !important;
+  background: #be185d !important;
+}
+
+/* Light mode: lighter pink card */
+[data-color-mode="light"] #pricing [class*="PricingOptions-module__PricingOptions__item"]:nth-child(4) {
+  background: linear-gradient(180deg, #fce7f3 0%, #fdf2f8 100%) !important;
+}
+[data-color-mode="light"] #pricing [class*="PricingOptions-module__PricingOptions__item"]:nth-child(4)::before {
+  border-color: rgba(236, 72, 153, 0.5) !important;
+  box-shadow: 0 0 18px 2px rgba(236, 72, 153, 0.15);
+}
+[data-color-mode="light"] #pricing [class*="PricingOptions-module__PricingOptions__item"]:nth-child(4) [class*="Button--accent"],
+[data-color-mode="light"] #pricing [class*="PricingOptions-module__PricingOptions__item"]:nth-child(4) [class*="Button--primary"] {
+  background-color: #ec4899 !important;
+  border-color: #ec4899 !important;
+  color: #fff !important;
+  background: #ec4899 !important;
+}
+[data-color-mode="light"] #pricing [class*="PricingOptions-module__PricingOptions__item"]:nth-child(4) [class*="Button--accent"]:hover,
+[data-color-mode="light"] #pricing [class*="PricingOptions-module__PricingOptions__item"]:nth-child(4) [class*="Button--primary"]:hover {
+  background-color: #db2777 !important;
+  border-color: #db2777 !important;
+  background: #db2777 !important;
+}
+
 
 /*
   "Coming soon" overlay for pricing — blurs the numeric price text and floats
