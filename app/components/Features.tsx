@@ -41,30 +41,30 @@ export function Features() {
 
                 {/* Row 1 */}
                 <Bento.Item columnSpan={{xsmall: 12, small: 12, medium: 7}} rowSpan={2} flow="column" colorMode={colorMode}>
-                    <Bento.Visual padding="none"><OverlayCard {...agrotemachia} /></Bento.Visual>
+                    <Bento.Visual><OverlayCard {...agrotemachia} /></Bento.Visual>
                 </Bento.Item>
 
                 <Bento.Item columnSpan={{xsmall: 12, small: 12, medium: 5}} rowSpan={2} flow="column" colorMode={colorMode}>
-                    <Bento.Visual padding="none"><OverlayCard {...apothiki} /></Bento.Visual>
+                    <Bento.Visual><OverlayCard {...apothiki} /></Bento.Visual>
                 </Bento.Item>
 
                 {/* Row 2 */}
                 <Bento.Item columnSpan={12} flow={{xsmall: 'row', small: 'row', medium: 'column'}} colorMode={colorMode}>
-                    <Bento.Visual padding="none"><OverlayCard {...mitroo} /></Bento.Visual>
+                    <Bento.Visual><OverlayCard {...mitroo} /></Bento.Visual>
                 </Bento.Item>
 
                 {/* Row 3 */}
                 <Bento.Item columnSpan={{xsmall: 12, small: 12, medium: 7}} rowSpan={2} flow="column" colorMode={colorMode}>
-                    <Bento.Visual padding="none"><OverlayCard {...ergatiko} /></Bento.Visual>
+                    <Bento.Visual><OverlayCard {...ergatiko} /></Bento.Visual>
                 </Bento.Item>
 
                 <Bento.Item columnSpan={{xsmall: 12, small: 12, medium: 5}} rowSpan={2} flow="column" colorMode={colorMode}>
-                    <Bento.Visual padding="none"><OverlayCard {...eidopoiiseis} /></Bento.Visual>
+                    <Bento.Visual><OverlayCard {...eidopoiiseis} /></Bento.Visual>
                 </Bento.Item>
 
                 {/* Row 4 */}
                 <Bento.Item columnSpan={12} flow={{xsmall: 'row', small: 'row', medium: 'column'}} colorMode={colorMode}>
-                    <Bento.Visual padding="none"><OverlayCard {...ai} /></Bento.Visual>
+                    <Bento.Visual><OverlayCard {...ai} /></Bento.Visual>
                 </Bento.Item>
 
             </Bento>

@@ -1,5 +1,9 @@
 @import "tailwindcss";
 /* features section refresh */
+/* Zero out Bento.Visual padding so overlay images go edge-to-edge */
+[class*="Bento-module__BentoVisual"] {
+  padding: 0 !important;
+}
 /* header fade */
 /* glow divider v2 */
 /* stats wash fade-in v3 */
