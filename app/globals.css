@@ -516,8 +516,9 @@ section {
 }
 
 /*
-  Small geometric accent animation beneath the hero — concentric rotating
-  squares with a pulsing core and orbiting dots, all in green tones.
+  Spinning Earth globe beneath the hero.
+  A 192 px-wide flat Mercator map scrolls inside a 96 px circular clip to
+  produce a seamless west-to-east rotation with a sphere sheen overlay.
 */
 .geo-accent {
   display: flex;
@@ -527,50 +528,48 @@ section {
   margin-top: clamp(1.5rem, 4vw, 2.5rem);
 }
 
-.geo-accent .geo-square-outer {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: geo-spin 9s linear infinite;
+/* Circular clip + border + atmosphere glow */
+.earth-globe {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1.5px solid rgba(46, 164, 78, 0.45);
+  box-shadow:
+    0 0 0 3px rgba(46, 164, 78, 0.12),
+    0 0 18px 4px rgba(46, 164, 78, 0.22),
+    0 0 40px 10px rgba(12, 35, 64, 0.55);
+  flex-shrink: 0;
 }
 
-.geo-accent .geo-square-inner {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: geo-spin-reverse 6s linear infinite;
+/* The flat map SVG scrolls continuously left */
+.earth-map {
+  display: block;
+  animation: earth-rotate 14s linear infinite;
 }
 
-.geo-accent .geo-dot {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: geo-pulse 2.4s ease-in-out infinite;
+@keyframes earth-rotate {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-96px); }
 }
 
-.geo-accent .geo-orbit {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: geo-spin 7s linear infinite;
-}
-
-@keyframes geo-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-@keyframes geo-spin-reverse {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(-360deg); }
-}
-
-@keyframes geo-pulse {
-  0%, 100% { transform: scale(1);   opacity: 1; }
-  50%      { transform: scale(1.6); opacity: 0.55; }
+/* Radial highlight — makes the flat circle look like a lit sphere */
+.earth-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 32% 28%,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.04) 40%,
+    transparent 68%
+  );
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .geo-accent .geo-square-outer,
-  .geo-accent .geo-square-inner,
-  .geo-accent .geo-dot,
-  .geo-accent .geo-orbit {
+  .earth-map {
     animation: none;
   }
 }

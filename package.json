@@ -12,9 +12,12 @@
     "@primer/octicons-react": "^19.23.1",
     "@primer/react": "^38.28.0",
     "@primer/react-brand": "^0.66.0",
+    "@types/topojson-client": "^3.1.5",
+    "d3": "^7.9.0",
     "next": "16.2.3",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "topojson-client": "^3.1.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

@@ -1,52 +1,73 @@
 'use client'
 
-/**
- * GeometricAccent
- * A small, minimal geometric animation rendered in green tones.
- * Pure SVG + CSS keyframes (see globals.css) — no external dependencies.
- */
+import { useEffect, useRef, useState } from 'react'
+import * as d3 from 'd3'
+import * as topojson from 'topojson-client'
+import type { Topology, GeometryCollection } from 'topojson-specification'
+
+const SIZE = 96
+const WORLD_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
+
 export function GeometricAccent() {
+    const [geoJson, setGeoJson] = useState<d3.ExtendedFeatureCollection | null>(null)
+    const landRef  = useRef<SVGPathElement>(null)
+    const sphereRef = useRef<SVGPathElement>(null)
+    const graticuleRef = useRef<SVGPathElement>(null)
+
+    // Fetch world TopoJSON once
+    useEffect(() => {
+        fetch(WORLD_URL)
+            .then(r => r.json())
+            .then((topo: Topology) => {
+                const countries = (topo.objects as Record<string, GeometryCollection>).countries
+                setGeoJson(topojson.feature(topo, countries) as d3.ExtendedFeatureCollection)
+            })
+    }, [])
+
+    // Animate — bypass React reconciliation by mutating SVG attrs directly
+    useEffect(() => {
+        if (!geoJson) return
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+        const projection = d3.geoOrthographic()
+            .scale(SIZE / 2 - 2)
+            .translate([SIZE / 2, SIZE / 2])
+            .clipAngle(90)
+
+        const path      = d3.geoPath(projection)
+        const graticule = d3.geoGraticule10()
+
+        let rotation = 0
+        let rafId: number
+
+        const tick = () => {
+            rotation += 0.2
+            projection.rotate([rotation, -20])
+
+            landRef.current?.setAttribute('d',       path(geoJson)    ?? '')
+            sphereRef.current?.setAttribute('d',     path({type: 'Sphere'}) ?? '')
+            graticuleRef.current?.setAttribute('d',  path(graticule)  ?? '')
+
+            rafId = requestAnimationFrame(tick)
+        }
+
+        rafId = requestAnimationFrame(tick)
+        return () => cancelAnimationFrame(rafId)
+    }, [geoJson])
+
     return (
         <div className="geo-accent" aria-hidden="true">
-            <svg
-                width="96"
-                height="96"
-                viewBox="0 0 96 96"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                {/* Outer rotating square */}
-                <rect
-                    className="geo-square-outer"
-                    x="18"
-                    y="18"
-                    width="60"
-                    height="60"
-                    rx="10"
-                    stroke="#2da44e"
-                    strokeWidth="2"
-                />
-                {/* Inner counter-rotating square */}
-                <rect
-                    className="geo-square-inner"
-                    x="30"
-                    y="30"
-                    width="36"
-                    height="36"
-                    rx="6"
-                    stroke="#3fb950"
-                    strokeWidth="2"
-                />
-                {/* Pulsing center dot */}
-                <circle className="geo-dot" cx="48" cy="48" r="6" fill="#2da44e"/>
-
-                {/* Orbiting satellite dots */}
-                <g className="geo-orbit">
-                    <circle cx="48" cy="12" r="3.5" fill="#57d364"/>
-                    <circle cx="48" cy="84" r="3.5" fill="#46954a"/>
-                </g>
-            </svg>
+            <div className="earth-globe">
+                <svg width={SIZE} height={SIZE}>
+                    {/* Ocean fill */}
+                    <path ref={sphereRef} fill="#0c2340"/>
+                    {/* Graticule grid */}
+                    <path ref={graticuleRef} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="0.4"/>
+                    {/* Countries */}
+                    <path ref={landRef} fill="#2da44e" fillOpacity="0.88" stroke="#1a7a30" strokeWidth="0.4"/>
+                </svg>
+                <div className="earth-sheen"/>
+            </div>
         </div>
     )
 }
-
