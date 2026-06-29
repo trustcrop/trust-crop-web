@@ -5,9 +5,9 @@ import Image from 'next/image'
 import content from '../content/el.json'
 import {useTheme} from './ThemeContext'
 
-type CardData = {src: string; title: string; description: string; width: number; height: number; maxHeight?: number}
+type CardData = {src: string; title: string; description: string; width: number; height: number; maxHeight?: number; objectPosition?: string}
 
-const OverlayCard = ({src, title, description, width, height, maxHeight}: CardData) => (
+const OverlayCard = ({src, title, description, width, height, maxHeight, objectPosition = 'top'}: CardData) => (
     <div style={{position: 'relative', width: '100%', ...(maxHeight ? {maxHeight, overflow: 'hidden', borderRadius: 12} : {})}}>
         <Image
             src={src}
@@ -18,7 +18,7 @@ const OverlayCard = ({src, title, description, width, height, maxHeight}: CardDa
                 width: '100%',
                 height: maxHeight ? maxHeight : 'auto',
                 objectFit: maxHeight ? 'cover' : undefined,
-                objectPosition: 'top',
+                objectPosition,
                 display: 'block',
                 borderRadius: 12,
             }}
