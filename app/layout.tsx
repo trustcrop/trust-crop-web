@@ -24,6 +24,20 @@ export const metadata: Metadata = {
     icon: { url: "/apple-icon.png", type: "image/png" },
     apple: { url: "/apple-icon.png", type: "image/png", sizes: "512x512" },
   },
+  openGraph: {
+    title: "TrustCrop — Ολοκληρωμένο Λογισμικό Αγροδιατροφικού Τομέα",
+    description: "Πλήρης έλεγχος παραγωγής, συσκευαστηρίου και αποθήκης σε μία ενιαία πλατφόρμα.",
+    url: "https://trustcrop.gr",
+    siteName: "TrustCrop",
+    images: [{ url: "/apple-icon.png", width: 512, height: 512, alt: "TrustCrop" }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "TrustCrop — Ολοκληρωμένο Λογισμικό Αγροδιατροφικού Τομέα",
+    description: "Πλήρης έλεγχος παραγωγής, συσκευαστηρίου και αποθήκης σε μία ενιαία πλατφόρμα.",
+    images: ["/apple-icon.png"],
+  },
 };
 
 export default function RootLayout({

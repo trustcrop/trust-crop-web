@@ -118,7 +118,8 @@ export function Features() {
                             : '/images/light/ai.png'}
                         width={2038}
                         height={1338}
-                        maxHeight={320}
+                        maxHeight={520}
+                        objectPosition="center"
                     /></Bento.Visual>
                 </Bento.Item>
 
