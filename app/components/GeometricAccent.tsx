@@ -1,23 +1,59 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
+
 const SIZE = 260
 const CX   = SIZE / 2
 const CY   = SIZE / 2
 const RX   = 110
 const RY   = 34
 
-// Ellipse path for animateMotion — traced in the group's local (pre-rotation) space
-const ELLIPSE_PATH =
-    `M ${CX - RX},${CY} A ${RX},${RY} 0 1,0 ${CX + RX},${CY} A ${RX},${RY} 0 1,0 ${CX - RX},${CY} Z`
-
+// Each orbit: visual properties + animation period (ms) + initial phase offset (ms).
+// phaseMs replicates the negative SMIL `begin` (e.g. begin="-1.1s" → phaseMs=1100).
 const ORBITS = [
-    { angle:   0, stroke: 'rgba(46,164,78,0.62)', dotR: 6,   dotFill: '#2da44e',              dur: '3.2s', begin: '0s'    },
-    { angle:  45, stroke: 'rgba(46,164,78,0.46)', dotR: 5.5, dotFill: 'rgba(46,164,78,0.88)', dur: '4.4s', begin: '-1.1s' },
-    { angle:  90, stroke: 'rgba(46,164,78,0.62)', dotR: 6,   dotFill: '#2da44e',              dur: '3.8s', begin: '-1.9s' },
-    { angle: 135, stroke: 'rgba(46,164,78,0.46)', dotR: 5.5, dotFill: 'rgba(46,164,78,0.88)', dur: '5.0s', begin: '-2.5s' },
+    { angle:   0, stroke: 'rgba(46,164,78,0.62)', dotR: 6,   dotFill: '#2da44e',              durMs: 3200, phaseMs:    0 },
+    { angle:  45, stroke: 'rgba(46,164,78,0.46)', dotR: 5.5, dotFill: 'rgba(46,164,78,0.88)', durMs: 4400, phaseMs: 1100 },
+    { angle:  90, stroke: 'rgba(46,164,78,0.62)', dotR: 6,   dotFill: '#2da44e',              durMs: 3800, phaseMs: 1900 },
+    { angle: 135, stroke: 'rgba(46,164,78,0.46)', dotR: 5.5, dotFill: 'rgba(46,164,78,0.88)', durMs: 5000, phaseMs: 2500 },
 ]
 
 export function GeometricAccent() {
+    const dotRefs = useRef<(SVGCircleElement | null)[]>([])
+    const rafRef  = useRef<number>(0)
+
+    useEffect(() => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+        const start = performance.now()
+
+        const tick = (now: number) => {
+            const elapsed = now - start
+
+            ORBITS.forEach(({ angle, durMs, phaseMs }, i) => {
+                const dot = dotRefs.current[i]
+                if (!dot) return
+
+                // Parametric position on the ellipse in its own (pre-rotation) space
+                const t  = ((elapsed + phaseMs) % durMs) / durMs
+                const θ  = t * 2 * Math.PI
+                const lx = CX + RX * Math.cos(θ)
+                const ly = CY + RY * Math.sin(θ)
+
+                // Rotate the local position around (CX, CY) by the orbit's tilt angle
+                const rad = (angle * Math.PI) / 180
+                const dx  = lx - CX
+                const dy  = ly - CY
+                dot.setAttribute('cx', String(CX + dx * Math.cos(rad) - dy * Math.sin(rad)))
+                dot.setAttribute('cy', String(CY + dx * Math.sin(rad) + dy * Math.cos(rad)))
+            })
+
+            rafRef.current = requestAnimationFrame(tick)
+        }
+
+        rafRef.current = requestAnimationFrame(tick)
+        return () => cancelAnimationFrame(rafRef.current)
+    }, [])
+
     return (
         <div className="geo-accent" aria-hidden="true">
             <svg
@@ -28,25 +64,23 @@ export function GeometricAccent() {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
             >
-                {ORBITS.map(({ angle, stroke, dotR, dotFill, dur, begin }) => (
+                {/* Static orbit ellipses */}
+                {ORBITS.map(({ angle, stroke }) => (
                     <g key={angle} transform={`rotate(${angle}, ${CX}, ${CY})`}>
                         <ellipse cx={CX} cy={CY} rx={RX} ry={RY} stroke={stroke} strokeWidth="1.5" />
-                        {/*
-                          CSS Motion Path drives the dot along ELLIPSE_PATH. The path lives
-                          in the group's local (pre-rotation) space, matching offset-path's
-                          coordinate system, so each orbit still inherits its parent rotation.
-                        */}
-                        <circle
-                            className="geo-dot"
-                            r={dotR}
-                            fill={dotFill}
-                            style={{
-                                '--geo-path': `path('${ELLIPSE_PATH}')`,
-                                animationDuration: dur,
-                                animationDelay: begin,
-                            } as React.CSSProperties}
-                        />
                     </g>
+                ))}
+
+                {/* Animated dots — positioned in full SVG space by the RAF loop */}
+                {ORBITS.map(({ dotR, dotFill, angle }, i) => (
+                    <circle
+                        key={angle}
+                        ref={el => { dotRefs.current[i] = el }}
+                        cx={CX + RX}
+                        cy={CY}
+                        r={dotR}
+                        fill={dotFill}
+                    />
                 ))}
 
                 {/* Central leaf */}

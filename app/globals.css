@@ -602,34 +602,7 @@ section {
   filter: drop-shadow(0 0 12px rgba(46, 164, 78, 0.35));
 }
 
-/*
-  Orbit dots travel along the ellipse via CSS Motion Path instead of SVG SMIL
-  (<animateMotion>). SMIL motion animation is deprecated and does NOT run on
-  mobile Safari / Chrome Android, so the dots froze on phones while working on
-  desktop. offset-path is supported across modern mobile browsers.
-
-  The path string is injected per-dot through the --geo-path custom property so
-  it stays defined once in the component. duration/delay come from inline styles.
-*/
-.geo-dot {
-  offset-path: var(--geo-path);
-  offset-rotate: 0deg;
-  offset-distance: 0%;
-  animation: geo-orbit linear infinite;
-  will-change: offset-distance;
-}
-
-@keyframes geo-orbit {
-  to {
-    offset-distance: 100%;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .geo-dot {
-    animation: none;
-  }
-}
+/* Orbit dots animated via requestAnimationFrame in GeometricAccent.tsx — no CSS needed */
 
 /* Sphere sheen — radial highlight top-left */
 .find-us-link {
