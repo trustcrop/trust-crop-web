@@ -586,21 +586,23 @@ section {
   box-shadow: var(--brand-shadow-medium, 0 6px 20px rgba(0, 0, 0, 0.35));
 }
 
-/* Move drop-shadow to the wrapper so it doesn't interfere with SMIL on iOS Safari */
+/*
+  Geometric orbit animation — two ellipses with travelling dots.
+*/
 .geo-accent {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   margin-top: clamp(1.5rem, 4vw, 2.5rem);
-  filter: drop-shadow(0 0 12px rgba(46, 164, 78, 0.35));
 }
 
 .geo-orbits {
   overflow: visible;
+  filter: drop-shadow(0 0 12px rgba(46, 164, 78, 0.35));
 }
 
-/* Orbit dots driven by requestAnimationFrame in GeometricAccent.tsx — no CSS animation needed */
+/* Orbit dots animated via SVG animateMotion — no CSS needed */
 
 /* Sphere sheen — radial highlight top-left */
 .find-us-link {

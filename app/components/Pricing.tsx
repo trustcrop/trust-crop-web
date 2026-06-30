@@ -23,7 +23,7 @@ export function Pricing() {
 
     return (
         <Section id="pricing">
-            <AnimationProvider animationTrigger="on-visible" runOnce>
+            <AnimationProvider animationTrigger="on-visible" visibilityOptions={1} runOnce>
                 <SectionIntro align="center" fullWidth animate="fade-in">
                     <SectionIntro.Label color="green">{pricing.sectionIntro.label}</SectionIntro.Label>
                     <SectionIntro.Heading>{pricing.sectionIntro.heading}</SectionIntro.Heading>

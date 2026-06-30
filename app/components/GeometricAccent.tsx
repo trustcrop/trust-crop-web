@@ -1,55 +1,23 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-
 const SIZE = 260
-const CX   = SIZE / 2   // 130
-const CY   = SIZE / 2   // 130
+const CX   = SIZE / 2
+const CY   = SIZE / 2
 const RX   = 110
 const RY   = 34
 
-// dur in ms, phase = how far into the loop each dot starts (creates the stagger)
+// Ellipse path for animateMotion — traced in the group's local (pre-rotation) space
+const ELLIPSE_PATH =
+    `M ${CX - RX},${CY} A ${RX},${RY} 0 1,0 ${CX + RX},${CY} A ${RX},${RY} 0 1,0 ${CX - RX},${CY} Z`
+
 const ORBITS = [
-    { angle:   0, stroke: 'rgba(46,164,78,0.62)', dotR: 6,   dotFill: '#2da44e',              dur: 3200, phase:    0 },
-    { angle:  45, stroke: 'rgba(46,164,78,0.46)', dotR: 5.5, dotFill: 'rgba(46,164,78,0.88)', dur: 4400, phase: 1100 },
-    { angle:  90, stroke: 'rgba(46,164,78,0.62)', dotR: 6,   dotFill: '#2da44e',              dur: 3800, phase: 1900 },
-    { angle: 135, stroke: 'rgba(46,164,78,0.46)', dotR: 5.5, dotFill: 'rgba(46,164,78,0.88)', dur: 5000, phase: 2500 },
+    { angle:   0, stroke: 'rgba(46,164,78,0.62)', dotR: 6,   dotFill: '#2da44e',              dur: '3.2s', begin: '0s'    },
+    { angle:  45, stroke: 'rgba(46,164,78,0.46)', dotR: 5.5, dotFill: 'rgba(46,164,78,0.88)', dur: '4.4s', begin: '-1.1s' },
+    { angle:  90, stroke: 'rgba(46,164,78,0.62)', dotR: 6,   dotFill: '#2da44e',              dur: '3.8s', begin: '-1.9s' },
+    { angle: 135, stroke: 'rgba(46,164,78,0.46)', dotR: 5.5, dotFill: 'rgba(46,164,78,0.88)', dur: '5.0s', begin: '-2.5s' },
 ]
 
-// Static starting point on the ellipse for each dot, derived from its phase.
-// Used as the rendered cx/cy so dots are ALWAYS visible — even with JS disabled
-// or iOS "Reduce Motion" on (where they'd otherwise stack at the hidden centre).
-function dotStart({dur, phase}: {dur: number; phase: number}) {
-    const angle = (phase / dur) * 2 * Math.PI
-    return {cx: CX + RX * Math.cos(angle), cy: CY + RY * Math.sin(angle)}
-}
-
 export function GeometricAccent() {
-    const dotRefs = useRef<(SVGCircleElement | null)[]>(ORBITS.map(() => null))
-    const rafRef  = useRef<number>(0)
-
-    useEffect(() => {
-        // Respect reduced-motion preference — dots keep their static start positions
-        if (globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
-
-        const start = performance.now()
-
-        function tick(now: number) {
-            ORBITS.forEach(({ dur, phase }, i) => {
-                const el = dotRefs.current[i]
-                if (!el) return
-                const t = ((now - start + phase) % dur) / dur
-                const angle = t * 2 * Math.PI
-                el.setAttribute('cx', String(CX + RX * Math.cos(angle)))
-                el.setAttribute('cy', String(CY + RY * Math.sin(angle)))
-            })
-            rafRef.current = requestAnimationFrame(tick)
-        }
-
-        rafRef.current = requestAnimationFrame(tick)
-        return () => cancelAnimationFrame(rafRef.current)
-    }, [])
-
     return (
         <div className="geo-accent" aria-hidden="true">
             <svg
@@ -60,22 +28,14 @@ export function GeometricAccent() {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
             >
-                {ORBITS.map((orbit, i) => {
-                    const {angle, stroke, dotR, dotFill} = orbit
-                    const {cx, cy} = dotStart(orbit)
-                    return (
-                        <g key={angle} transform={`rotate(${angle}, ${CX}, ${CY})`}>
-                            <ellipse cx={CX} cy={CY} rx={RX} ry={RY} stroke={stroke} strokeWidth="1.5" />
-                            <circle
-                                ref={el => { dotRefs.current[i] = el }}
-                                cx={cx}
-                                cy={cy}
-                                r={dotR}
-                                fill={dotFill}
-                            />
-                        </g>
-                    )
-                })}
+                {ORBITS.map(({ angle, stroke, dotR, dotFill, dur, begin }) => (
+                    <g key={angle} transform={`rotate(${angle}, ${CX}, ${CY})`}>
+                        <ellipse cx={CX} cy={CY} rx={RX} ry={RY} stroke={stroke} strokeWidth="1.5" />
+                        <circle r={dotR} fill={dotFill}>
+                            <animateMotion dur={dur} repeatCount="indefinite" begin={begin} path={ELLIPSE_PATH} rotate="none" />
+                        </circle>
+                    </g>
+                ))}
 
                 {/* Central leaf */}
                 <g transform={`translate(${CX}, ${CY})`}>
@@ -86,7 +46,3 @@ export function GeometricAccent() {
         </div>
     )
 }
-
-
-
-
