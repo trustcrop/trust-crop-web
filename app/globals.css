@@ -166,7 +166,7 @@ section {
   overflow: hidden;
   max-width: 0;
   white-space: nowrap;
-  will-change: max-width;
+  /* max-width is not GPU-compositable — will-change removed to avoid mobile animation suppression */
   animation: brand-name-reveal 3s ease-in-out 0.3s 1 both;
 }
 
@@ -602,7 +602,17 @@ section {
   filter: drop-shadow(0 0 12px rgba(46, 164, 78, 0.35));
 }
 
-/* Orbit dots animated via SVG animateMotion — no CSS needed */
+/* Orbit dots — CSS motion-path animation (replaces SMIL for mobile compatibility) */
+@keyframes orbit-dot {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .geo-orbits circle {
+    animation: none !important;
+  }
+}
 
 /* Sphere sheen — radial highlight top-left */
 .find-us-link {

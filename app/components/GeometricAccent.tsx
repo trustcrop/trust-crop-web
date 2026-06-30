@@ -31,10 +31,17 @@ export function GeometricAccent() {
                 {ORBITS.map(({ angle, stroke, dotR, dotFill, dur, begin }) => (
                     <g key={angle} transform={`rotate(${angle}, ${CX}, ${CY})`}>
                         <ellipse cx={CX} cy={CY} rx={RX} ry={RY} stroke={stroke} strokeWidth="1.5" />
-                        {/* dot lives inside the rotated group so animateMotion path is already in the right space */}
-                        <circle r={dotR} fill={dotFill}>
-                            <animateMotion dur={dur} repeatCount="indefinite" begin={begin} path={ELLIPSE_PATH} rotate="none" />
-                        </circle>
+                        {/* CSS offset-path replaces SMIL animateMotion for reliable mobile support */}
+                        <circle
+                            r={dotR}
+                            fill={dotFill}
+                            style={{
+                                offsetPath: `path("${ELLIPSE_PATH}")`,
+                                offsetDistance: '0%',
+                                animation: `orbit-dot ${dur} linear ${begin} infinite`,
+                                willChange: 'offset-distance',
+                            }}
+                        />
                     </g>
                 ))}
 
