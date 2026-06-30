@@ -31,9 +31,21 @@ export function GeometricAccent() {
                 {ORBITS.map(({ angle, stroke, dotR, dotFill, dur, begin }) => (
                     <g key={angle} transform={`rotate(${angle}, ${CX}, ${CY})`}>
                         <ellipse cx={CX} cy={CY} rx={RX} ry={RY} stroke={stroke} strokeWidth="1.5" />
-                        <circle r={dotR} fill={dotFill}>
-                            <animateMotion dur={dur} repeatCount="indefinite" begin={begin} path={ELLIPSE_PATH} rotate="none" />
-                        </circle>
+                        {/*
+                          CSS Motion Path drives the dot along ELLIPSE_PATH. The path lives
+                          in the group's local (pre-rotation) space, matching offset-path's
+                          coordinate system, so each orbit still inherits its parent rotation.
+                        */}
+                        <circle
+                            className="geo-dot"
+                            r={dotR}
+                            fill={dotFill}
+                            style={{
+                                '--geo-path': `path('${ELLIPSE_PATH}')`,
+                                animationDuration: dur,
+                                animationDelay: begin,
+                            } as React.CSSProperties}
+                        />
                     </g>
                 ))}
 
