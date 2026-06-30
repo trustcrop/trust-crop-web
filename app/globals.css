@@ -586,31 +586,25 @@ section {
   box-shadow: var(--brand-shadow-medium, 0 6px 20px rgba(0, 0, 0, 0.35));
 }
 
-/*
-  Geometric orbit animation — two ellipses with travelling dots.
-*/
+/* Move drop-shadow to the wrapper so it doesn't interfere with SMIL on iOS Safari */
 .geo-accent {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   margin-top: clamp(1.5rem, 4vw, 2.5rem);
+  filter: drop-shadow(0 0 12px rgba(46, 164, 78, 0.35));
 }
 
 .geo-orbits {
   overflow: visible;
-  filter: drop-shadow(0 0 12px rgba(46, 164, 78, 0.35));
 }
 
-/* Orbit dots — CSS motion-path animation (replaces SMIL for mobile compatibility) */
-@keyframes orbit-dot {
-  from { offset-distance: 0%; }
-  to   { offset-distance: 100%; }
-}
+/* Orbit dots animated via SVG animateMotion */
 
 @media (prefers-reduced-motion: reduce) {
   .geo-orbits circle {
-    animation: none !important;
+    animation-play-state: paused !important;
   }
 }
 
