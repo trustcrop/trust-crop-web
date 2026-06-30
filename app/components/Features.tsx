@@ -3,6 +3,13 @@
 import {Bento, Section} from '@primer/react-brand'
 import Image from 'next/image'
 import content from '../content/el.json'
+import {AICard} from './AICard'
+import {AlertsCard} from './AlertsCard'
+import {CalendarCard} from './CalendarCard'
+import {EmployeesCard} from './EmployeesCard'
+import {GeoMapCard} from './GeoMapCard'
+import {RegistryCard} from './RegistryCard'
+import {TraceCard} from './TraceCard'
 import {useTheme} from './ThemeContext'
 
 type CardData = {src: string; title: string; description: string; width: number; height: number; maxHeight?: number; objectPosition?: string}
@@ -16,7 +23,7 @@ const OverlayCard = ({src, title, description, width, height, maxHeight, objectP
             height={height}
             style={{
                 width: '100%',
-                height: maxHeight ? maxHeight : 'auto',
+                height: maxHeight ?? 'auto',
                 objectFit: maxHeight ? 'cover' : undefined,
                 objectPosition,
                 display: 'block',
@@ -37,7 +44,7 @@ const OverlayCard = ({src, title, description, width, height, maxHeight, objectP
     </div>
 )
 
-const [agrotemachia, apothiki, mitroo, ergatiko, eidopoiiseis, ai] = content.featureCards
+const [agrotemachia, apothiki, mitroo, ergatiko, eidopoiiseis, ai, ichni] = content.featureCards
 
 export function Features() {
     const {colorMode} = useTheme()
@@ -46,81 +53,51 @@ export function Features() {
         <Section id="features" paddingBlockStart="none">
             <Bento>
 
-                {/* Row 1 */}
-                <Bento.Item columnSpan={{xsmall: 12, small: 12, medium: 7}} rowSpan={2} flow="column" colorMode={colorMode}>
-                    <Bento.Visual><OverlayCard
-                        {...agrotemachia}
-                        src={colorMode === 'dark'
-                            ? '/images/dark/geochartis.png'
-                            : '/images/light/geochartis.png'}
-                        width={2406}
-                        height={1528}
-                        maxHeight={400}
-                    /></Bento.Visual>
+                {/* Row 1 — swapped: Εργατικό (7) + Ειδοποιήσεις (5) */}
+                <Bento.Item columnSpan={{xsmall: 12, small: 12, medium: 7}} rowSpan={2} flow="column" colorMode="dark">
+                    <Bento.Visual>
+                        <EmployeesCard colorMode="dark" title={ergatiko.title} description={ergatiko.description}/>
+                    </Bento.Visual>
                 </Bento.Item>
 
-                <Bento.Item columnSpan={{xsmall: 12, small: 12, medium: 5}} rowSpan={2} flow="column" colorMode={colorMode}>
-                    <Bento.Visual><OverlayCard
-                        {...apothiki}
-                        src={colorMode === 'dark'
-                            ? '/images/dark/agro_calendar.png'
-                            : '/images/light/agro_calendar.png'}
-                        width={2406}
-                        height={1070}
-                        maxHeight={400}
-                    /></Bento.Visual>
+                <Bento.Item columnSpan={{xsmall: 12, small: 12, medium: 5}} rowSpan={2} flow="column" colorMode="dark">
+                    <Bento.Visual>
+                        <AlertsCard colorMode="dark" title={eidopoiiseis.title} description={eidopoiiseis.description}/>
+                    </Bento.Visual>
                 </Bento.Item>
 
-                {/* Row 2 — Μητρώο: dark/light image swap */}
-                <Bento.Item columnSpan={12} flow={{xsmall: 'row', small: 'row', medium: 'column'}} colorMode={colorMode}>
-                    <Bento.Visual><OverlayCard
-                        {...mitroo}
-                        src={colorMode === 'dark'
-                            ? '/images/dark/mitroo_fytoprostateutikwn.png'
-                            : '/images/light/mitroo_fytoprostateutikwn.png'}
-                        width={2392}
-                        height={1406}
-                        maxHeight={320}
-                    /></Bento.Visual>
+                {/* Row 2 — Μητρώο (12) */}
+                <Bento.Item columnSpan={12} flow={{xsmall: 'row', small: 'row', medium: 'column'}} colorMode="dark">
+                    <Bento.Visual>
+                        <RegistryCard colorMode="dark" title={mitroo.title} description={mitroo.description}/>
+                    </Bento.Visual>
                 </Bento.Item>
 
-                {/* Row 3 */}
-                <Bento.Item columnSpan={{xsmall: 12, small: 12, medium: 7}} rowSpan={2} flow="column" colorMode={colorMode}>
-                    <Bento.Visual><OverlayCard
-                        {...ergatiko}
-                        src={colorMode === 'dark'
-                            ? '/images/dark/employees.png'
-                            : '/images/light/employees.png'}
-                        width={2414}
-                        height={1220}
-                        maxHeight={400}
-                    /></Bento.Visual>
+                {/* Row 3 — swapped: Αγροτεμάχια (7) + Εργασίες (5) */}
+                <Bento.Item columnSpan={{xsmall: 12, small: 12, medium: 7}} rowSpan={2} flow="column" colorMode="dark">
+                    <Bento.Visual>
+                        <GeoMapCard colorMode="dark" title={agrotemachia.title} description={agrotemachia.description}/>
+                    </Bento.Visual>
                 </Bento.Item>
 
-                <Bento.Item columnSpan={{xsmall: 12, small: 12, medium: 5}} rowSpan={2} flow="column" colorMode={colorMode}>
-                    <Bento.Visual><OverlayCard
-                        {...eidopoiiseis}
-                        src={colorMode === 'dark'
-                            ? '/images/dark/notifications.png'
-                            : '/images/light/notifications.png'}
-                        width={1224}
-                        height={1376}
-                        maxHeight={400}
-                    /></Bento.Visual>
+                <Bento.Item columnSpan={{xsmall: 12, small: 12, medium: 5}} rowSpan={2} flow="column" colorMode="dark">
+                    <Bento.Visual>
+                        <CalendarCard colorMode="dark" title={apothiki.title} description={apothiki.description}/>
+                    </Bento.Visual>
                 </Bento.Item>
 
-                {/* Row 4 */}
-                <Bento.Item columnSpan={12} flow={{xsmall: 'row', small: 'row', medium: 'column'}} colorMode={colorMode}>
-                    <Bento.Visual><OverlayCard
-                        {...ai}
-                        src={colorMode === 'dark'
-                            ? '/images/dark/ai.png'
-                            : '/images/light/ai.png'}
-                        width={2038}
-                        height={1338}
-                        maxHeight={520}
-                        objectPosition="center"
-                    /></Bento.Visual>
+                {/* Row 4 — ΑΙ (12) */}
+                <Bento.Item columnSpan={12} flow={{xsmall: 'row', small: 'row', medium: 'column'}} colorMode="dark">
+                    <Bento.Visual>
+                        <AICard colorMode="dark" title={ai.title} description={ai.description}/>
+                    </Bento.Visual>
+                </Bento.Item>
+
+                {/* Row 5 — Ιχνηλασιμότητα (12) */}
+                <Bento.Item columnSpan={12} flow={{xsmall: 'row', small: 'row', medium: 'column'}} colorMode="dark">
+                    <Bento.Visual>
+                        <TraceCard colorMode="dark" title={ichni.title} description={ichni.description}/>
+                    </Bento.Visual>
                 </Bento.Item>
 
             </Bento>

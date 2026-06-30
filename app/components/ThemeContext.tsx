@@ -1,6 +1,6 @@
 'use client'
 
-import {createContext, useContext, useState, useEffect, useMemo, startTransition, type ReactNode} from 'react'
+import {createContext, useContext, useEffect, useMemo, type ReactNode} from 'react'
 
 type ColorMode = 'light' | 'dark'
 
@@ -12,30 +12,13 @@ interface ThemeCtx {
 const ThemeContext = createContext<ThemeCtx>({colorMode: 'dark', toggle: () => {}})
 
 export function ThemeContextProvider({children}: {readonly children: ReactNode}) {
-    const [colorMode, setColorMode] = useState<ColorMode>('dark')
-
-    // Initialise from localStorage or system preference
+    // Always dark — theme toggle is disabled site-wide
     useEffect(() => {
-        const stored = localStorage.getItem('tc-theme') as ColorMode | null
-        startTransition(() => {
-            if (stored === 'light' || stored === 'dark') {
-                setColorMode(stored)
-            } else {
-                const prefersDark = globalThis.matchMedia('(prefers-color-scheme: dark)').matches
-                setColorMode(prefersDark ? 'dark' : 'light')
-            }
-        })
+        document.documentElement.dataset.colorMode = 'dark'
+        localStorage.setItem('tc-theme', 'dark')
     }, [])
 
-    // Sync data attribute + storage whenever mode changes
-    useEffect(() => {
-        document.documentElement.dataset.colorMode = colorMode
-        localStorage.setItem('tc-theme', colorMode)
-    }, [colorMode])
-
-    const toggle = () => setColorMode(prev => (prev === 'dark' ? 'light' : 'dark'))
-
-    const value = useMemo(() => ({colorMode, toggle}), [colorMode])
+    const value = useMemo(() => ({colorMode: 'dark' as ColorMode, toggle: () => {}}), [])
 
     return (
         <ThemeContext.Provider value={value}>

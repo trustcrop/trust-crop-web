@@ -46,8 +46,9 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html
+      <html
       lang="el"
+      data-color-mode="dark"
       className={`${inter.variable} h-full antialiased`}
     >
       <head>
