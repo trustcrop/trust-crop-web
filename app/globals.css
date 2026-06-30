@@ -600,42 +600,7 @@ section {
   overflow: visible;
 }
 
-/* Orbit dots animated via CSS translate keyframes — works on iOS Safari.
-   Each step is a parametric point on the ellipse: tx = 110·cos(θ), ty = 34·sin(θ).
-   The dot sits at the SVG centre (CX,CY) and is offset by the translate. */
-@keyframes orbit-dot {
-  0%     { transform: translate(110px,    0px);    }
-  4.17%  { transform: translate(106.2px,  8.8px);  }
-  8.33%  { transform: translate(95.3px,   17px);   }
-  12.5%  { transform: translate(77.8px,   24px);   }
-  16.67% { transform: translate(55px,     29.4px); }
-  20.83% { transform: translate(28.5px,   32.8px); }
-  25%    { transform: translate(0px,      34px);   }
-  29.17% { transform: translate(-28.5px,  32.8px); }
-  33.33% { transform: translate(-55px,    29.4px); }
-  37.5%  { transform: translate(-77.8px,  24px);   }
-  41.67% { transform: translate(-95.3px,  17px);   }
-  45.83% { transform: translate(-106.2px, 8.8px);  }
-  50%    { transform: translate(-110px,   0px);    }
-  54.17% { transform: translate(-106.2px,-8.8px);  }
-  58.33% { transform: translate(-95.3px, -17px);   }
-  62.5%  { transform: translate(-77.8px, -24px);   }
-  66.67% { transform: translate(-55px,   -29.4px); }
-  70.83% { transform: translate(-28.5px, -32.8px); }
-  75%    { transform: translate(0px,     -34px);   }
-  79.17% { transform: translate(28.5px,  -32.8px); }
-  83.33% { transform: translate(55px,    -29.4px); }
-  87.5%  { transform: translate(77.8px,  -24px);   }
-  91.67% { transform: translate(95.3px,  -17px);   }
-  95.83% { transform: translate(106.2px, -8.8px);  }
-  100%   { transform: translate(110px,    0px);    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .geo-orbits circle {
-    animation: none !important;
-  }
-}
+/* Orbit dots driven by requestAnimationFrame in GeometricAccent.tsx — no CSS animation needed */
 
 /* Sphere sheen — radial highlight top-left */
 .find-us-link {
