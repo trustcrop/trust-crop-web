@@ -16,12 +16,20 @@ const ORBITS = [
     { angle: 135, stroke: 'rgba(46,164,78,0.46)', dotR: 5.5, dotFill: 'rgba(46,164,78,0.88)', dur: 5000, phase: 2500 },
 ]
 
+// Static starting point on the ellipse for each dot, derived from its phase.
+// Used as the rendered cx/cy so dots are ALWAYS visible — even with JS disabled
+// or iOS "Reduce Motion" on (where they'd otherwise stack at the hidden centre).
+function dotStart({dur, phase}: {dur: number; phase: number}) {
+    const angle = (phase / dur) * 2 * Math.PI
+    return {cx: CX + RX * Math.cos(angle), cy: CY + RY * Math.sin(angle)}
+}
+
 export function GeometricAccent() {
     const dotRefs = useRef<(SVGCircleElement | null)[]>(ORBITS.map(() => null))
     const rafRef  = useRef<number>(0)
 
     useEffect(() => {
-        // Respect reduced-motion preference
+        // Respect reduced-motion preference — dots keep their static start positions
         if (globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
 
         const start = performance.now()
@@ -52,18 +60,22 @@ export function GeometricAccent() {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
             >
-                {ORBITS.map(({ angle, stroke, dotR, dotFill }, i) => (
-                    <g key={angle} transform={`rotate(${angle}, ${CX}, ${CY})`}>
-                        <ellipse cx={CX} cy={CY} rx={RX} ry={RY} stroke={stroke} strokeWidth="1.5" />
-                        <circle
-                            ref={el => { dotRefs.current[i] = el }}
-                            cx={CX}
-                            cy={CY}
-                            r={dotR}
-                            fill={dotFill}
-                        />
-                    </g>
-                ))}
+                {ORBITS.map((orbit, i) => {
+                    const {angle, stroke, dotR, dotFill} = orbit
+                    const {cx, cy} = dotStart(orbit)
+                    return (
+                        <g key={angle} transform={`rotate(${angle}, ${CX}, ${CY})`}>
+                            <ellipse cx={CX} cy={CY} rx={RX} ry={RY} stroke={stroke} strokeWidth="1.5" />
+                            <circle
+                                ref={el => { dotRefs.current[i] = el }}
+                                cx={cx}
+                                cy={cy}
+                                r={dotR}
+                                fill={dotFill}
+                            />
+                        </g>
+                    )
+                })}
 
                 {/* Central leaf */}
                 <g transform={`translate(${CX}, ${CY})`}>
