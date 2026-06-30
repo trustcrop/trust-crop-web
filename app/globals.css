@@ -587,9 +587,7 @@ section {
 }
 
 /*
-  Spinning Earth globe beneath the hero.
-  A 192 px-wide flat Mercator map scrolls inside a 96 px circular clip to
-  produce a seamless west-to-east rotation with a sphere sheen overlay.
+  Geometric orbit animation — two ellipses with travelling dots.
 */
 .geo-accent {
   display: flex;
@@ -599,45 +597,12 @@ section {
   margin-top: clamp(1.5rem, 4vw, 2.5rem);
 }
 
-/* Circular clip + border + atmosphere glow */
-.earth-globe {
-  position: relative;
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 1.5px solid rgba(46, 164, 78, 0.45);
-  box-shadow:
-    0 0 0 3px rgba(46, 164, 78, 0.12),
-    0 0 18px 4px rgba(46, 164, 78, 0.22),
-    0 0 40px 10px rgba(12, 35, 64, 0.55);
-  flex-shrink: 0;
+.geo-orbits {
+  overflow: visible;
+  filter: drop-shadow(0 0 12px rgba(46, 164, 78, 0.35));
 }
 
-/* The flat map SVG scrolls continuously left */
-.earth-map {
-  display: block;
-  animation: earth-rotate 14s linear infinite;
-}
-
-@keyframes earth-rotate {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-96px); }
-}
-
-/* Radial highlight — makes the flat circle look like a lit sphere */
-.earth-sheen {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 32% 28%,
-    rgba(255, 255, 255, 0.18) 0%,
-    rgba(255, 255, 255, 0.04) 40%,
-    transparent 68%
-  );
-  pointer-events: none;
-}
+/* Orbit dots animated via SVG animateMotion — no CSS needed */
 
 /* Sphere sheen — radial highlight top-left */
 .find-us-link {
