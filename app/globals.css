@@ -602,7 +602,7 @@ section {
   filter: drop-shadow(0 0 12px rgba(46, 164, 78, 0.35));
 }
 
-/* Orbit dots animated via requestAnimationFrame in GeometricAccent.tsx — no CSS needed */
+/* Orbit dots animated via CSS keyframes injected in GeometricAccent.tsx — no additional CSS needed here */
 
 /* Sphere sheen — radial highlight top-left */
 .find-us-link {
