@@ -6,15 +6,15 @@ const CY   = SIZE / 2
 const RX   = 110
 const RY   = 34
 
-// Ellipse path for animateMotion — traced in the group's local (pre-rotation) space
-const ELLIPSE_PATH =
-    `M ${CX - RX},${CY} A ${RX},${RY} 0 1,0 ${CX + RX},${CY} A ${RX},${RY} 0 1,0 ${CX - RX},${CY} Z`
-
+// Orbits: each dot lives at the SVG centre (CX,CY) and is moved by a CSS
+// @keyframes translate along the ellipse.  The <g> rotation tilts the whole
+// orbit plane.  Negative animation-delay starts the dot mid-loop so all four
+// are staggered — CSS delays work correctly on iOS Safari unlike SMIL begin.
 const ORBITS = [
-    { angle:   0, stroke: 'rgba(46,164,78,0.62)', dotR: 6,   dotFill: '#2da44e',              dur: '3.2s', begin: '0s'    },
-    { angle:  45, stroke: 'rgba(46,164,78,0.46)', dotR: 5.5, dotFill: 'rgba(46,164,78,0.88)', dur: '4.4s', begin: '-1.1s' },
-    { angle:  90, stroke: 'rgba(46,164,78,0.62)', dotR: 6,   dotFill: '#2da44e',              dur: '3.8s', begin: '-1.9s' },
-    { angle: 135, stroke: 'rgba(46,164,78,0.46)', dotR: 5.5, dotFill: 'rgba(46,164,78,0.88)', dur: '5.0s', begin: '-2.5s' },
+    { angle:   0, stroke: 'rgba(46,164,78,0.62)', dotR: 6,   dotFill: '#2da44e',              dur: '3.2s', delay: '0s'    },
+    { angle:  45, stroke: 'rgba(46,164,78,0.46)', dotR: 5.5, dotFill: 'rgba(46,164,78,0.88)', dur: '4.4s', delay: '-1.1s' },
+    { angle:  90, stroke: 'rgba(46,164,78,0.62)', dotR: 6,   dotFill: '#2da44e',              dur: '3.8s', delay: '-1.9s' },
+    { angle: 135, stroke: 'rgba(46,164,78,0.46)', dotR: 5.5, dotFill: 'rgba(46,164,78,0.88)', dur: '5.0s', delay: '-2.5s' },
 ]
 
 export function GeometricAccent() {
@@ -28,12 +28,20 @@ export function GeometricAccent() {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
             >
-                {ORBITS.map(({ angle, stroke, dotR, dotFill, dur, begin }) => (
+                {ORBITS.map(({ angle, stroke, dotR, dotFill, dur, delay }) => (
                     <g key={angle} transform={`rotate(${angle}, ${CX}, ${CY})`}>
                         <ellipse cx={CX} cy={CY} rx={RX} ry={RY} stroke={stroke} strokeWidth="1.5" />
-                        <circle r={dotR} fill={dotFill}>
-                            <animateMotion dur={dur} repeatCount="indefinite" begin={begin} path={ELLIPSE_PATH} rotate="none" />
-                        </circle>
+                        {/* cx/cy at centre; CSS translate drives the orbit — no SMIL needed */}
+                        <circle
+                            cx={CX}
+                            cy={CY}
+                            r={dotR}
+                            fill={dotFill}
+                            style={{
+                                animation: `orbit-dot ${dur} linear ${delay} infinite`,
+                                willChange: 'transform',
+                            }}
+                        />
                     </g>
                 ))}
 
