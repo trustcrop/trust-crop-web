@@ -97,7 +97,7 @@ export function Pricing() {
                                         )),
                                     ]}
                                 </PricingOptions.FeatureList>
-                                <PricingOptions.PrimaryAction variant="accent" as="a" href={plan.primaryAction.href}>
+                                <PricingOptions.PrimaryAction variant="primary" as="a" href={plan.primaryAction.href}>
                                     {plan.primaryAction.text}
                                 </PricingOptions.PrimaryAction>
                             </PricingOptions.Item>
