@@ -1,11 +1,12 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
+
 const SIZE  = 260
-const CX    = SIZE / 2   // 130
-const CY    = SIZE / 2   // 130
+const CX    = SIZE / 2
+const CY    = SIZE / 2
 const RX    = 110
 const RY    = 34
-const STEPS = 60
 
 const ORBITS = [
     { angle:   0, stroke: 'rgba(46,164,78,0.62)', dotR: 6,   dotFill: '#2da44e',              durMs: 3200, phaseMs:    0 },
@@ -14,27 +15,41 @@ const ORBITS = [
     { angle: 135, stroke: 'rgba(46,164,78,0.46)', dotR: 5.5, dotFill: 'rgba(46,164,78,0.88)', durMs: 5000, phaseMs: 2500 },
 ]
 
-/** Absolute cx/cy positions along the tilted ellipse for a given orbit. */
-function buildCxCy(angle: number): { cxValues: string; cyValues: string } {
-    const rad  = (angle * Math.PI) / 180
-    const cosA = Math.cos(rad)
-    const sinA = Math.sin(rad)
-    const cxPts: string[] = []
-    const cyPts: string[] = []
-    for (let s = 0; s <= STEPS; s++) {
-        const θ  = (s / STEPS) * 2 * Math.PI
-        const lx = RX * Math.cos(θ)
-        const ly = RY * Math.sin(θ)
-        cxPts.push((CX + lx * cosA - ly * sinA).toFixed(2))
-        cyPts.push((CY + lx * sinA + ly * cosA).toFixed(2))
-    }
-    return { cxValues: cxPts.join(';'), cyValues: cyPts.join(';') }
-}
-
-// Pre-compute at module load — identical on server & client, no hydration mismatch
-const ORBIT_PATHS = ORBITS.map(({ angle }) => buildCxCy(angle))
+// Pre-compute per-orbit rotation constants so the rAF loop does minimal work
+const ORBIT_CONSTS = ORBITS.map(({ angle, durMs, phaseMs }) => {
+    const rad = (angle * Math.PI) / 180
+    return { cosA: Math.cos(rad), sinA: Math.sin(rad), durMs, phaseMs }
+})
 
 export function GeometricAccent() {
+    const dotsRef = useRef<(SVGCircleElement | null)[]>([])
+
+    useEffect(() => {
+        // Respect reduced-motion preference
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+        const start = performance.now()
+        let raf: number
+
+        function tick(now: number) {
+            const elapsed = now - start
+            for (let i = 0; i < ORBIT_CONSTS.length; i++) {
+                const el = dotsRef.current[i]
+                if (!el) continue
+                const { cosA, sinA, durMs, phaseMs } = ORBIT_CONSTS[i]
+                const θ = ((elapsed + phaseMs) % durMs) / durMs * (2 * Math.PI)
+                const lx = RX * Math.cos(θ)
+                const ly = RY * Math.sin(θ)
+                el.setAttribute('cx', (CX + lx * cosA - ly * sinA).toFixed(2))
+                el.setAttribute('cy', (CY + lx * sinA + ly * cosA).toFixed(2))
+            }
+            raf = requestAnimationFrame(tick)
+        }
+
+        raf = requestAnimationFrame(tick)
+        return () => cancelAnimationFrame(raf)
+    }, [])
+
     return (
         <div className="geo-accent" aria-hidden="true">
             <svg
@@ -52,37 +67,17 @@ export function GeometricAccent() {
                     </g>
                 ))}
 
-                {/*
-                  Dots: animate cx and cy attributes directly — the most
-                  universally compatible SMIL approach. Works on iOS Safari,
-                  Android, and desktop without any CSS or transform tricks.
-                  Negative begin offsets start each dot mid-cycle.
-                */}
-                {ORBITS.map(({ angle, dotR, dotFill, durMs, phaseMs }, i) => {
-                    const { cxValues, cyValues } = ORBIT_PATHS[i]
-                    const durStr = `${durMs}ms`
-                    const beginStr = phaseMs > 0 ? `-${phaseMs}ms` : '0ms'
-                    return (
-                        <circle key={`dot-${angle}`} cx={CX} cy={CY} r={dotR} fill={dotFill}>
-                            <animate
-                                attributeName="cx"
-                                values={cxValues}
-                                dur={durStr}
-                                begin={beginStr}
-                                repeatCount="indefinite"
-                                calcMode="linear"
-                            />
-                            <animate
-                                attributeName="cy"
-                                values={cyValues}
-                                dur={durStr}
-                                begin={beginStr}
-                                repeatCount="indefinite"
-                                calcMode="linear"
-                            />
-                        </circle>
-                    )
-                })}
+                {/* Dots — positioned at centre on first render, rAF moves them */}
+                {ORBITS.map(({ angle, dotR, dotFill }, i) => (
+                    <circle
+                        key={`dot-${angle}`}
+                        ref={el => { dotsRef.current[i] = el }}
+                        cx={CX}
+                        cy={CY}
+                        r={dotR}
+                        fill={dotFill}
+                    />
+                ))}
 
                 {/* Central leaf */}
                 <g transform={`translate(${CX}, ${CY})`}>
