@@ -630,9 +630,13 @@ section {
   margin-top: clamp(1.5rem, 4vw, 2.5rem);
 }
 
+.geo-accent-filter {
+  filter: drop-shadow(0 0 12px rgba(46, 164, 78, 0.35));
+}
+
 .geo-orbits {
   overflow: visible;
-  filter: drop-shadow(0 0 12px rgba(46, 164, 78, 0.35));
+  display: block;
 }
 
 /* Orbit dots animated via CSS keyframes injected in GeometricAccent.tsx — no additional CSS needed here */
