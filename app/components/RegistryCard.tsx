@@ -35,7 +35,7 @@ export function RegistryCard({colorMode, title, description}: Props) {
 
     return (
         <div style={{position:'relative', width:'100%', borderRadius:12, overflow:'hidden', lineHeight:0}}>
-            <svg viewBox="0 0 1280 260" style={{width:'100%', height:'auto', display:'block', background:t.bg}} xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 1280 340" style={{width:'100%', height:'auto', display:'block', background:t.bg}} xmlns="http://www.w3.org/2000/svg">
 
                 {/* Header labels — minimal */}
                 <text x={CX.num}   y={HDR_Y} textAnchor="middle" fill={t.muted} fontSize="9" fontWeight="600" fontFamily="system-ui">#</text>

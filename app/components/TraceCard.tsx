@@ -37,7 +37,7 @@ export function TraceCard({colorMode, title, description}: Props) {
 
     return (
         <div style={{position:'relative', width:'100%', borderRadius:12, overflow:'hidden', lineHeight:0}}>
-            <svg viewBox="0 0 1280 260" style={{width:'100%', height:'auto', display:'block', background:t.bg}} xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 1280 340" style={{width:'100%', height:'auto', display:'block', background:t.bg}} xmlns="http://www.w3.org/2000/svg">
 
                 {/* Connector line */}
                 <line x1={PAD_X} y1={PIPE_Y} x2={1280 - PAD_X} y2={PIPE_Y} stroke={t.line} strokeWidth="2"/>
