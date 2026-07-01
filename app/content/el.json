@@ -198,10 +198,6 @@
         }
       },
       {
-        "label": {
-          "text": "\u03a0\u03c1\u03bf\u03c4\u03b5\u03b9\u03bd\u03cc\u03bc\u03b5\u03bd\u03bf",
-          "color": "purple"
-        },
         "heading": "Premium",
         "description": "\u0395\u03c0\u03b1\u03b3\u03b3\u03b5\u03bb\u03bc\u03b1\u03c4\u03af\u03b5\u03c2 \u03bc\u03b5 \u03b1\u03bd\u03ac\u03b3\u03ba\u03b7 AI",
         "price": {
@@ -234,10 +230,6 @@
         }
       },
       {
-        "label": {
-          "text": "Custom",
-          "color": "pink"
-        },
         "heading": "Enterprise",
         "description": "\u039f\u03c1\u03b3\u03b1\u03bd\u03b9\u03c3\u03bc\u03bf\u03af & \u03c3\u03c5\u03bd\u03b5\u03c4\u03b1\u03b9\u03c1\u03b9\u03c3\u03bc\u03bf\u03af",
         "price": {

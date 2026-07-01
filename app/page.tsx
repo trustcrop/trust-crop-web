@@ -40,7 +40,7 @@ export default function Home() {
                     <span style={{display: "block", width: "100%", textAlign: "center"}}>
             {footer.copyright.replace("{year}", String(new Date().getFullYear()))}{" · "}
                         Powered by{" "}
-                        <span style={{fontWeight: 700, color: "#8957e5"}}>NextOracle</span>
+                        <span style={{fontWeight: 700, color: "#ec4899"}}>NextOracle</span>
           </span>
                 }
             />

@@ -168,6 +168,7 @@ section {
   white-space: nowrap;
   /* max-width is not GPU-compositable — will-change removed to avoid mobile animation suppression */
   animation: brand-name-reveal 3s ease-in-out 0.3s 1 both;
+  -webkit-animation: brand-name-reveal 3s ease-in-out 0.3s 1 both;
 }
 
 .brand-name-text {
@@ -178,8 +179,9 @@ section {
   letter-spacing: -0.01em;
   color: var(--brand-color-text-default, var(--foreground));
   transform: translateX(-100%);
-  will-change: transform;
+  -webkit-transform: translateX(-100%);
   animation: brand-name-slide 3s ease-in-out 0.3s 1 both;
+  -webkit-animation: brand-name-slide 3s ease-in-out 0.3s 1 both;
 }
 
 @keyframes brand-name-reveal {
@@ -188,18 +190,31 @@ section {
   70%  { max-width: 12rem; }
   100% { max-width: 0; }
 }
+@-webkit-keyframes brand-name-reveal {
+  0%   { max-width: 0; }
+  25%  { max-width: 12rem; }
+  70%  { max-width: 12rem; }
+  100% { max-width: 0; }
+}
 
 @keyframes brand-name-slide {
-  0%   { transform: translateX(-100%); opacity: 0; }
-  25%  { transform: translateX(0); opacity: 1; }
-  70%  { transform: translateX(0); opacity: 1; }
-  100% { transform: translateX(-100%); opacity: 0; }
+  0%   { transform: translateX(-100%); -webkit-transform: translateX(-100%); opacity: 0; }
+  25%  { transform: translateX(0);     -webkit-transform: translateX(0);     opacity: 1; }
+  70%  { transform: translateX(0);     -webkit-transform: translateX(0);     opacity: 1; }
+  100% { transform: translateX(-100%); -webkit-transform: translateX(-100%); opacity: 0; }
+}
+@-webkit-keyframes brand-name-slide {
+  0%   { -webkit-transform: translateX(-100%); opacity: 0; }
+  25%  { -webkit-transform: translateX(0);     opacity: 1; }
+  70%  { -webkit-transform: translateX(0);     opacity: 1; }
+  100% { -webkit-transform: translateX(-100%); opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .brand-name,
   .brand-name-text {
     animation: none;
+    -webkit-animation: none;
   }
 }
 
@@ -501,11 +516,29 @@ section {
   box-shadow: 0 0 18px 2px rgba(236, 72, 153, 0.25);
 }
 
-/* Pink "Custom" label chip — lighter pink text */
-#pricing [class*="PricingOptions-module__PricingOptions__item"]:nth-child(4) [class*="Label-module__Label"] {
-  --brand-Label-color: #fce7f3 !important;
-  --brand-Label-color-start: #fce7f3 !important;
+/* Enterprise label cell (4th column in the labels row above the cards) — pink theme to match the card */
+#pricing [class*="PricingOptions__labels"] > *:nth-child(4) {
+  background: linear-gradient(180deg, #3b0f24 0%, #1e0a14 100%) !important;
+  border-color: rgba(236, 72, 153, 0.6) !important;
+}
+/* Top accent line inside the has-label cell */
+#pricing [class*="PricingOptions__labels"] > *:nth-child(4)::after {
+  background-color: #ec4899 !important;
+}
+/* Label text */
+#pricing [class*="PricingOptions__labels"] > *:nth-child(4) [class*="PricingOptions__label"] {
   color: #fce7f3 !important;
+}
+/* Light mode equivalents */
+[data-color-mode="light"] #pricing [class*="PricingOptions__labels"] > *:nth-child(4) {
+  background: linear-gradient(180deg, #fce7f3 0%, #fdf2f8 100%) !important;
+  border-color: rgba(236, 72, 153, 0.5) !important;
+}
+[data-color-mode="light"] #pricing [class*="PricingOptions__labels"] > *:nth-child(4)::after {
+  background-color: #db2777 !important;
+}
+[data-color-mode="light"] #pricing [class*="PricingOptions__labels"] > *:nth-child(4) [class*="PricingOptions__label"] {
+  color: #be185d !important;
 }
 
 /* Pink checkmark ticks — inline style uses fill so we need !important */
