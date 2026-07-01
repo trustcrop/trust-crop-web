@@ -5,7 +5,7 @@ const CX    = SIZE / 2   // 130
 const CY    = SIZE / 2   // 130
 const RX    = 110
 const RY    = 34
-const STEPS = 60         // keyframe resolution — enough for a smooth ellipse
+const STEPS = 60
 
 const ORBITS = [
     { angle:   0, stroke: 'rgba(46,164,78,0.62)', dotR: 6,   dotFill: '#2da44e',              durMs: 3200, phaseMs:    0 },
@@ -15,34 +15,30 @@ const ORBITS = [
 ]
 
 /**
- * Build a @keyframes rule whose frames translate a circle placed at (CX,CY)
- * along the tilted ellipse for orbit `id`.
- * Using translate() so transform-origin is irrelevant — pure offset.
+ * Build the SMIL `values` string for <animateTransform type="translate">
+ * Each step is "tx,ty" separated by semicolons.
+ * Using SMIL instead of CSS @keyframes because CSS transform on SVG elements
+ * is silently broken on iOS Safari — SMIL runs in the SVG engine and works
+ * everywhere without any prefixes.
  */
-function buildKeyframes(id: number, angle: number): string {
+function buildSmilValues(angle: number): string {
     const rad  = (angle * Math.PI) / 180
     const cosA = Math.cos(rad)
     const sinA = Math.sin(rad)
-    const frames: string[] = [`@keyframes _geo${id}{`]
+    const pts: string[] = []
     for (let s = 0; s <= STEPS; s++) {
         const θ  = (s / STEPS) * 2 * Math.PI
         const lx = RX * Math.cos(θ)
         const ly = RY * Math.sin(θ)
-        // rotate the local ellipse point by the orbit tilt
         const tx = (lx * cosA - ly * sinA).toFixed(2)
         const ty = (lx * sinA + ly * cosA).toFixed(2)
-        const p  = Math.round((s / STEPS) * 100)
-        frames.push(`${p}%{transform:translate(${tx}px,${ty}px)}`)
+        pts.push(`${tx},${ty}`)
     }
-    frames.push('}')
-    return frames.join('')
+    return pts.join(';')
 }
 
-// All inputs are module-level constants → computed once at load time, same on
-// server and client so no hydration mismatch.
-const KEYFRAMES_CSS =
-    ORBITS.map(({ angle }, i) => buildKeyframes(i, angle)).join('') +
-    '@media(prefers-reduced-motion:reduce){.geo-dot{animation:none!important}}'
+// Pre-compute at module load — same on server & client, no hydration mismatch
+const SMIL_VALUES = ORBITS.map(({ angle }) => buildSmilValues(angle))
 
 export function GeometricAccent() {
     return (
@@ -55,10 +51,6 @@ export function GeometricAccent() {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
             >
-                {/* Inject keyframes directly into the SVG — valid in inline SVG */}
-                {/* eslint-disable-next-line react/no-danger */}
-                <style dangerouslySetInnerHTML={{ __html: KEYFRAMES_CSS }} />
-
                 {/* Static orbit ellipses */}
                 {ORBITS.map(({ angle, stroke }) => (
                     <g key={angle} transform={`rotate(${angle}, ${CX}, ${CY})`}>
@@ -67,23 +59,24 @@ export function GeometricAccent() {
                 ))}
 
                 {/*
-                  Animated dots. Each circle sits at (CX, CY); the CSS keyframes
-                  apply translate() offsets to move them along the orbit path.
-                  Negative animation-delay starts the dot mid-cycle (same effect
-                  as the original SMIL negative `begin` values).
+                  Animated dots using SMIL <animateTransform>.
+                  The circle sits at (CX,CY); SMIL translates it along the orbit.
+                  Negative `begin` starts the dot mid-cycle (same as CSS negative delay).
+                  SMIL is natively handled by the SVG engine on every platform —
+                  no CSS, no -webkit- hacks needed.
                 */}
                 {ORBITS.map(({ angle, dotR, dotFill, durMs, phaseMs }, i) => (
-                    <circle
-                        key={`dot-${angle}`}
-                        className="geo-dot"
-                        cx={CX}
-                        cy={CY}
-                        r={dotR}
-                        fill={dotFill}
-                        style={{
-                            animation: `_geo${i} ${durMs}ms linear -${phaseMs}ms infinite`,
-                        }}
-                    />
+                    <circle key={`dot-${angle}`} cx={CX} cy={CY} r={dotR} fill={dotFill}>
+                        <animateTransform
+                            attributeName="transform"
+                            type="translate"
+                            values={SMIL_VALUES[i]}
+                            dur={`${durMs}ms`}
+                            begin={`-${phaseMs}ms`}
+                            repeatCount="indefinite"
+                            calcMode="linear"
+                        />
+                    </circle>
                 ))}
 
                 {/* Central leaf */}
