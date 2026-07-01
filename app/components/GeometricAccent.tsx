@@ -14,31 +14,25 @@ const ORBITS = [
     { angle: 135, stroke: 'rgba(46,164,78,0.46)', dotR: 5.5, dotFill: 'rgba(46,164,78,0.88)', durMs: 5000, phaseMs: 2500 },
 ]
 
-/**
- * Build the SMIL `values` string for <animateTransform type="translate">
- * Each step is "tx,ty" separated by semicolons.
- * Using SMIL instead of CSS @keyframes because CSS transform on SVG elements
- * is silently broken on iOS Safari — SMIL runs in the SVG engine and works
- * everywhere without any prefixes.
- */
-function buildSmilValues(angle: number): string {
+/** Absolute cx/cy positions along the tilted ellipse for a given orbit. */
+function buildCxCy(angle: number): { cxValues: string; cyValues: string } {
     const rad  = (angle * Math.PI) / 180
     const cosA = Math.cos(rad)
     const sinA = Math.sin(rad)
-    const pts: string[] = []
+    const cxPts: string[] = []
+    const cyPts: string[] = []
     for (let s = 0; s <= STEPS; s++) {
         const θ  = (s / STEPS) * 2 * Math.PI
         const lx = RX * Math.cos(θ)
         const ly = RY * Math.sin(θ)
-        const tx = (lx * cosA - ly * sinA).toFixed(2)
-        const ty = (lx * sinA + ly * cosA).toFixed(2)
-        pts.push(`${tx},${ty}`)
+        cxPts.push((CX + lx * cosA - ly * sinA).toFixed(2))
+        cyPts.push((CY + lx * sinA + ly * cosA).toFixed(2))
     }
-    return pts.join(';')
+    return { cxValues: cxPts.join(';'), cyValues: cyPts.join(';') }
 }
 
-// Pre-compute at module load — same on server & client, no hydration mismatch
-const SMIL_VALUES = ORBITS.map(({ angle }) => buildSmilValues(angle))
+// Pre-compute at module load — identical on server & client, no hydration mismatch
+const ORBIT_PATHS = ORBITS.map(({ angle }) => buildCxCy(angle))
 
 export function GeometricAccent() {
     return (
@@ -59,25 +53,36 @@ export function GeometricAccent() {
                 ))}
 
                 {/*
-                  Animated dots using SMIL <animateTransform>.
-                  The circle sits at (CX,CY); SMIL translates it along the orbit.
-                  Negative `begin` starts the dot mid-cycle (same as CSS negative delay).
-                  SMIL is natively handled by the SVG engine on every platform —
-                  no CSS, no -webkit- hacks needed.
+                  Dots: animate cx and cy attributes directly — the most
+                  universally compatible SMIL approach. Works on iOS Safari,
+                  Android, and desktop without any CSS or transform tricks.
+                  Negative begin offsets start each dot mid-cycle.
                 */}
-                {ORBITS.map(({ angle, dotR, dotFill, durMs, phaseMs }, i) => (
-                    <circle key={`dot-${angle}`} cx={CX} cy={CY} r={dotR} fill={dotFill}>
-                        <animateTransform
-                            attributeName="transform"
-                            type="translate"
-                            values={SMIL_VALUES[i]}
-                            dur={`${durMs}ms`}
-                            begin={`-${phaseMs}ms`}
-                            repeatCount="indefinite"
-                            calcMode="linear"
-                        />
-                    </circle>
-                ))}
+                {ORBITS.map(({ angle, dotR, dotFill, durMs, phaseMs }, i) => {
+                    const { cxValues, cyValues } = ORBIT_PATHS[i]
+                    const durStr = `${durMs}ms`
+                    const beginStr = phaseMs > 0 ? `-${phaseMs}ms` : '0ms'
+                    return (
+                        <circle key={`dot-${angle}`} cx={CX} cy={CY} r={dotR} fill={dotFill}>
+                            <animate
+                                attributeName="cx"
+                                values={cxValues}
+                                dur={durStr}
+                                begin={beginStr}
+                                repeatCount="indefinite"
+                                calcMode="linear"
+                            />
+                            <animate
+                                attributeName="cy"
+                                values={cyValues}
+                                dur={durStr}
+                                begin={beginStr}
+                                repeatCount="indefinite"
+                                calcMode="linear"
+                            />
+                        </circle>
+                    )
+                })}
 
                 {/* Central leaf */}
                 <g transform={`translate(${CX}, ${CY})`}>
