@@ -25,7 +25,7 @@ export function AppHeader() {
                 <SubNav.Link href="#find-us">{nav.contact}</SubNav.Link>
 
 
-                <SubNav.Action href="https://app.trustcrop.gr" variant="accent">
+                <SubNav.Action href="https://app.trustcrop.gr" variant="primary">
                     {nav.getStarted}
                 </SubNav.Action>
             </SubNav>
