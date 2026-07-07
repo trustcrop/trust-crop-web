@@ -7,10 +7,6 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,        // next/image optimisation requires a server
   },
-  experimental: {
-    // Inline critical CSS; load the rest non-blocking → eliminates render-blocking styles
-    optimizeCss: true,
-  },
 };
 
 export default nextConfig;
