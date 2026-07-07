@@ -1,0 +1,4 @@
+:HL["/_next/static/chunks/0u5.2hy1tze7j.css","style"]
+:HL["/_next/static/chunks/17nqr9qj8rosm.css","style"]
+:HL["/apple-icon.png","image",{"type":"image/png"}]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"ixhfSnsqMDiYDlVW5b8sK"}
