@@ -10,7 +10,7 @@ import {
 } from '@primer/octicons-react'
 import {Heading, Label, Section, Stack, Text} from '@primer/react-brand'
 import content from '../content/el.json'
-import {GeometricAccent} from './GeometricAccent'
+import {GeometricAccentLazy} from './GeometricAccentLazy'
 
 const {hero} = content
 
@@ -42,7 +42,7 @@ export function HeroSection() {
                         Το <span style={{color: 'var(--brand-color-accent-primary, #2da44e)', fontWeight: 600}}>TrustCrop</span>
                         {' '}είναι μια ολοκληρωμένη ψηφιακή πλατφόρμα διαχείρισης γεωργικής εκμετάλλευσης.
                     </Text>
-                    <GeometricAccent/>
+                    <GeometricAccentLazy/>
                 </Stack>
 
                 {/* Right: feature list with octicons */}
